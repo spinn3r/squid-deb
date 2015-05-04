@@ -1,0 +1,1 @@
+smbdes.o: smbdes.c

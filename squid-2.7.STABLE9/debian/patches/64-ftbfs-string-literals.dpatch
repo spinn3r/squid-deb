@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 64-ftbfs-string-literals.dpatch by Luigi Gangitano <luigi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fixes FTBFS on 'Format not a string literal'
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/src/client_side.c squid/src/client_side.c
+--- squid~/src/client_side.c	2010-03-15 18:35:24.000000000 +0100
++++ squid/src/client_side.c	2011-03-29 18:16:43.000000000 +0200
+@@ -2527,7 +2527,7 @@
+     httpHeaderClean(&hdr);
+ 
+     /* append <crlf> (we packed a header, not a reply) */
+-    memBufPrintf(mb, crlf);
++    memBufPrintf(mb, "\r\n");
+ }
+ 
+ /*

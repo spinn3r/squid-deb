@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 62-missing-expansion.dpatch by Luigi Gangitano <luigi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fixes %W expansion
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/src/errorpage.c squid/src/errorpage.c
+--- squid~/src/errorpage.c	2009-08-05 01:53:01.000000000 +0200
++++ squid/src/errorpage.c	2011-03-29 17:17:52.000000000 +0200
+@@ -596,6 +596,9 @@
+ 	else
+ 	    p = "[unknown]";
+ 	break;
++    case 'W':
++	p = "";
++	break;
+     case 'z':
+ 	if (err->dnsserver_msg)
+ 	    p = err->dnsserver_msg;

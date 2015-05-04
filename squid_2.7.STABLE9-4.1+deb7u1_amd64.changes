@@ -1,0 +1,33 @@
+Format: 1.8
+Date: Sun, 25 Jan 2015 12:03:34 +0100
+Source: squid
+Binary: squid squid-common
+Architecture: source all amd64
+Version: 2.7.STABLE9-4.1+deb7u1
+Distribution: wheezy-security
+Urgency: medium
+Maintainer: Luigi Gangitano <luigi@debian.org>
+Changed-By: Sebastien Delafond <seb@debian.org>
+Description: 
+ squid      - Internet object cache (WWW proxy cache)
+ squid-common - Internet object cache (WWW proxy cache) - common files
+Changes: 
+ squid (2.7.STABLE9-4.1+deb7u1) wheezy-security; urgency=medium
+ .
+   * Non-maintainer upload by the Security Team
+   * Fix CVE-2014-3609 by backporting 3.0-based upstream patch
+Checksums-Sha1: 
+ 8d0097c6ac233f16554dd264fae8f49a9615e360 1020 squid_2.7.STABLE9-4.1+deb7u1.dsc
+ 385597d467a53499672857275684c6b3fa217694 304578 squid_2.7.STABLE9-4.1+deb7u1.diff.gz
+ ea8653b0d8020cb664bb23934e2af11c5d31a72c 352732 squid-common_2.7.STABLE9-4.1+deb7u1_all.deb
+ 7d627d2049a93a35ca46d5f23a2a981c39bcc8e3 825072 squid_2.7.STABLE9-4.1+deb7u1_amd64.deb
+Checksums-Sha256: 
+ 13c74e9dacc9206546c330f56655ccad81ba37461aff6967e6d7e853be9ae4e3 1020 squid_2.7.STABLE9-4.1+deb7u1.dsc
+ 4f874a0fb340610e31a1c5a1e8b923ee65b6169ccaad317b6ad741c25d7cb70b 304578 squid_2.7.STABLE9-4.1+deb7u1.diff.gz
+ 8a1b376b585691d53aad68891e1c0af2db4d959617d360c75c14b444e6a101dd 352732 squid-common_2.7.STABLE9-4.1+deb7u1_all.deb
+ bcca3dd9cc3f8a922a496b8541aed35f182e281e8f7307fa14337485d07c87b4 825072 squid_2.7.STABLE9-4.1+deb7u1_amd64.deb
+Files: 
+ 5e126b52f863fbc176a5940a252a06c4 1020 web optional squid_2.7.STABLE9-4.1+deb7u1.dsc
+ e87b65065dd1c1dd5c4603d10a3147ee 304578 web optional squid_2.7.STABLE9-4.1+deb7u1.diff.gz
+ 973f63a3216f3ebac96fe435d032e8bb 352732 web optional squid-common_2.7.STABLE9-4.1+deb7u1_all.deb
+ 889c9d44dbfbc4e6eb2a55536fc821e9 825072 web optional squid_2.7.STABLE9-4.1+deb7u1_amd64.deb

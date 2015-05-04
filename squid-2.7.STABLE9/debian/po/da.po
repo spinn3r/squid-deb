@@ -1,0 +1,83 @@
+# Danish translation squid.
+# Copyright (C) 2011 squid & nedenstående oversættere.
+# This file is distributed under the same license as the squid package.
+# Joe Hansen <joedalton2@yahoo.dk>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: squid\n"
+"Report-Msgid-Bugs-To: luigi@debian.org\n"
+"POT-Creation-Date: 2007-09-01 01:49+0200\n"
+"PO-Revision-Date: 2011-04-03 17:30+01:00\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"Language-Team: Danish <debian-l10n-danish@lists.debian.org> \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Upgrade squid.conf automatically?"
+msgstr "Opgrader automatisk squid.conf?"
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "Incompatible settings have been found in the existing squid.conf file."
+msgstr ""
+"Indstillinger, som ikke er kompatible, er fundet i den eksisterende squid."
+"conf-fil."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid "They will prevent Squid from starting or working correctly."
+msgstr "De vil forhindre Squid i at starte eller fungere korrekt."
+
+#. Type: boolean
+#. Description
+#: ../templates:2001
+msgid ""
+"These settings can be corrected now. Please choose whether you want to apply "
+"the needed changes."
+msgstr ""
+"Disse indstillinger kan rettes nu. Vælg venligst hvorvidt du ønsker at "
+"anvende de krævede ændringer."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Fix permissions of 'cache_dir'?"
+msgstr "Ret rettigheder for »cache_dir«?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"The values for 'cache_effective_user' and/or 'cache_effective_group' in "
+"Squid's configuration file are incompatible with the owner/group of the "
+"cache directories."
+msgstr ""
+"Værdierne for »cache_effective_user« og/eller »cache_effective_group« i "
+"Squids konfigurationsfil er ikke kompatible med ejeren/gruppen på de "
+"mellemlagrede (cachede) mapper."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Please choose whether this should be fixed automatically."
+msgstr "Vælg venligst hvorvidt dette skal rettes automatisk."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"However, please note that if you specified a cache directory different from /"
+"var/spool/squid (such as /tmp), this could affect any other programs using "
+"that directory."
+msgstr ""
+"Bemærk dog venligst at hvis du angav en mellemlagermappe, som var forskellig "
+"fra /var/spool/squid (såsom /tmp), kan dette påvirke andre programmer som "
+"bruger den mappe."

@@ -1,0 +1,5 @@
+patching file src/main.c
+Hunk #1 succeeded at 376 (offset 50 lines).
+Hunk #2 succeeded at 414 with fuzz 2 (offset 49 lines).
+Hunk #3 succeeded at 460 with fuzz 2 (offset 69 lines).
+Hunk #4 succeeded at 635 (offset 98 lines).

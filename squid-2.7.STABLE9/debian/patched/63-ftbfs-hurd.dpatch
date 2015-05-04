@@ -1,0 +1,6 @@
+patching file helpers/basic_auth/MSNT/allowusers.c
+patching file helpers/basic_auth/MSNT/confload.c
+patching file helpers/basic_auth/MSNT/denyusers.c
+patching file include/util.h
+patching file src/squid.h
+patching file src/structs.h

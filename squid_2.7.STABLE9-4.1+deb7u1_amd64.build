@@ -1,0 +1,1530 @@
+ dpkg-buildpackage -rfakeroot -D -us -uc
+dpkg-buildpackage: warning: using a gain-root-command while being root
+dpkg-buildpackage: source package squid
+dpkg-buildpackage: source version 2.7.STABLE9-4.1+deb7u1
+dpkg-buildpackage: source changed by Sebastien Delafond <seb@debian.org>
+ dpkg-source --before-build squid-2.7.STABLE9
+dpkg-buildpackage: host architecture amd64
+ fakeroot debian/rules clean
+test -f src/squid.h
+test root = "`whoami`"
+[ ! -f Makefile ] || /usr/bin/make distclean
+rm -f helpers/basic_auth/NCSA/{Makefile,ncsa_auth.o,ncsa_auth}
+rm -f helpers/basic_auth/SMB/{smb_auth.o,smb_auth}
+rm -f helpers/basic_auth/PAM/{pam_auth.o,pam_auth}
+rm -f helpers/basic_auth/YP/{Makefile,yp_auth,yp_auth.o,nis_support.o}
+rm -f helpers/basic_auth/MSNT/{Makefile,msnt_auth,*.o}
+rm -f helpers/basic_auth/LDAP/{Makefile,squid_ldap_auth,*.o}
+rm -f helpers/basic_auth/getpwnam/{Makefile,getpwnam_auth.o,getpwnam_auth}
+rm -f helpers/digest_auth/password/{Makefile,digest_pw_auth,digest_pw_auth.o}
+rm -f helpers/external_acl/ip_user/{Makefile,ip_user,dict.o,main.o,match.o}
+rm -f helpers/external_acl/ldap_group/{Makefile,squid_ldap_group,squid_ldap_group.o}
+rm -f helpers/external_acl/unix_group/{Makefile,squid_unix_group,check_group.o}
+rm -f helpers/ntlm_auth/SMB/{Makefile,ntlm_auth,*.o,smbval/*.o}
+rm -f build debian/{substvars,files,templates.merged}
+rm -rf debian/tmp *~
+find . -name '*.bak' -o -name '*~' | xargs -r rm -f --
+#cd icons && /bin/sh ./icons.shar
+debconf-updatepo
+dpatch  deapply-all  
+70-CVE-2014-3609 not applied to ./ .
+64-ftbfs-string-literals not applied to ./ .
+63-ftbfs-hurd not applied to ./ .
+62-missing-expansion not applied to ./ .
+07-manpage not applied to ./ .
+06-unlinkd not applied to ./ .
+04-smb-auth not applied to ./ .
+03-no-append-domain-localhost not applied to ./ .
+02-dfl-error-dir not applied to ./ .
+01-cf.data.debian not applied to ./ .
+rm -rf patch-stamp patch-stampT debian/patched
+ dpkg-source -b squid-2.7.STABLE9
+dpkg-source: info: using source format `1.0'
+dpkg-source: info: building squid using existing squid_2.7.STABLE9.orig.tar.gz
+dpkg-source: info: building squid in squid_2.7.STABLE9-4.1+deb7u1.diff.gz
+dpkg-source: warning: executable mode 0755 of 'debian/patches/01-cf.data.debian.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/02-dfl-error-dir.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/04-smb-auth.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/64-ftbfs-string-literals.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/62-missing-expansion.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/07-manpage.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/03-no-append-domain-localhost.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/06-unlinkd.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/70-CVE-2014-3609.dpatch' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'debian/patches/63-ftbfs-hurd.dpatch' will not be represented in diff
+dpkg-source: warning: the diff modifies the following upstream files: 
+ src/defines.h
+dpkg-source: info: use the '3.0 (quilt)' format to have separate and documented changes to upstream files, see dpkg-source(1)
+dpkg-source: info: building squid in squid_2.7.STABLE9-4.1+deb7u1.dsc
+ debian/rules build
+test -d debian/patched || install -d debian/patched
+dpatch  apply-all  
+applying patch 01-cf.data.debian to ./ ... ok.
+applying patch 02-dfl-error-dir to ./ ... ok.
+applying patch 03-no-append-domain-localhost to ./ ... ok.
+applying patch 04-smb-auth to ./ ... ok.
+applying patch 06-unlinkd to ./ ... ok.
+applying patch 07-manpage to ./ ... ok.
+applying patch 62-missing-expansion to ./ ... ok.
+applying patch 63-ftbfs-hurd to ./ ... ok.
+applying patch 64-ftbfs-string-literals to ./ ... ok.
+applying patch 70-CVE-2014-3609 to ./ ... ok.
+dpatch  cat-all  >>patch-stampT
+mv -f patch-stampT patch-stamp
+rm cfgaux/config.sub cfgaux/config.guess
+ln -s /usr/share/misc/config.sub cfgaux/
+ln -s /usr/share/misc/config.guess cfgaux/
+ac_cv_func_setresuid=yes \
+	./configure \
+	--prefix=/usr \
+	--exec_prefix=/usr \
+	--bindir=/usr/sbin --sbindir=/usr/sbin \
+	--libexecdir=/usr/lib/squid \
+	--sysconfdir=/etc/squid \
+	--localstatedir=/var/spool/squid \
+	--datadir=/usr/share/squid \
+	--with-pthreads \
+	--enable-async-io --enable-storeio=ufs,aufs,coss,diskd,null \
+	--enable-linux-netfilter \
+	--enable-arp-acl \
+	--enable-epoll \
+	--enable-removal-policies=lru,heap \
+	--enable-snmp \
+	--enable-delay-pools \
+	--enable-htcp \
+	--enable-cache-digests \
+	--enable-referer-log \
+	--enable-useragent-log \
+	--enable-auth="basic,digest,ntlm,negotiate" \
+	--enable-negotiate-auth-helpers=squid_kerb_auth \
+	--enable-carp \
+	--enable-follow-x-forwarded-for \
+	--with-large-files \
+	--with-maxfd=65536 \
+	--build x86_64-linux-gnu
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking whether gcc and cc understand -c and -o together... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking for pkg-config... /usr/bin/pkg-config
+With pthreads
+Store modules built: ufs aufs coss diskd null
+coss store used, aio support automatically enabled
+Removal policies built: lru heap
+Delay pools enabled
+User-Agent logging enabled
+Referer logging enabled
+SNMP monitoring enabled
+ARP ACL lists enabled (ether address)
+HTCP enabled
+USE_CACHE_DIGESTS enabled
+Forcing epoll() to be enabled
+Linux-Netfilter Transparent Proxy enabled
+Using POSIX_V6_LP64_OFF64 build environment
+Auth scheme modules built: basic digest ntlm negotiate
+Negotiate auth helpers built: squid_kerb_auth
+unlinkd enabled
+follow X-Forwarded-For enabled
+checking for library containing inet_aton... none required
+checking for egrep... /bin/egrep
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for ranlib... ranlib
+checking whether ln -s works... yes
+checking for sh... /bin/sh
+checking for false... /bin/false
+checking for true... /bin/true
+checking for rm... /bin/rm
+checking for mv... /bin/mv
+checking for mkdir... /bin/mkdir
+checking for ln... /bin/ln
+checking for perl... /usr/bin/perl
+checking for ar... /usr/bin/ar
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for stddef.h... yes
+checking for limits.h... yes
+checking for sys/param.h... yes
+checking for sys/socket.h... yes
+checking for netinet/in.h... yes
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for arpa/inet.h... yes
+checking for arpa/nameser.h... yes
+checking for assert.h... yes
+checking for bstring.h... no
+checking for crypt.h... yes
+checking for ctype.h... yes
+checking for errno.h... yes
+checking for execinfo.h... yes
+checking for fcntl.h... yes
+checking for fnmatch.h... yes
+checking for getopt.h... yes
+checking for glob.h... yes
+checking for gnumalloc.h... no
+checking for grp.h... yes
+checking for libc.h... no
+checking for linux/netfilter_ipv4.h... yes
+checking for linux/netfilter_ipv4/ip_tproxy.h... no
+checking for malloc.h... yes
+checking for math.h... yes
+checking for memory.h... yes
+checking for mount.h... no
+checking for net/if.h... yes
+checking for net/pfvar.h... no
+checking for netdb.h... yes
+checking for netinet/if_ether.h... yes
+checking for netinet/tcp.h... yes
+checking for openssl/err.h... yes
+checking for openssl/md5.h... yes
+checking for openssl/ssl.h... yes
+checking for openssl/engine.h... yes
+checking for paths.h... yes
+checking for poll.h... yes
+checking for pwd.h... yes
+checking for regex.h... yes
+checking for resolv.h... yes
+checking for sched.h... yes
+checking for signal.h... yes
+checking for stdarg.h... yes
+checking for string.h... yes
+checking for strings.h... yes
+checking for sys/bitypes.h... yes
+checking for sys/file.h... yes
+checking for sys/ioctl.h... yes
+checking for sys/mount.h... yes
+checking for md5.h... no
+checking for sys/md5.h... no
+checking for sys/msg.h... yes
+checking for sys/prctl.h... yes
+checking for sys/resource.h... yes
+checking for sys/poll.h... yes
+checking for sys/select.h... yes
+checking for sys/stat.h... yes
+checking for sys/statfs.h... yes
+checking for sys/statvfs.h... yes
+checking for syscall.h... yes
+checking for sys/syscall.h... yes
+checking for sys/time.h... yes
+checking for sys/un.h... yes
+checking for sys/vfs.h... yes
+checking for sys/wait.h... yes
+checking for sys/event.h... no
+checking for syslog.h... yes
+checking for time.h... yes
+checking for unistd.h... yes
+checking for utime.h... yes
+checking for varargs.h... no
+checking for byteswap.h... yes
+checking for glib.h... no
+checking for stdint.h... yes
+checking for inttypes.h... yes
+checking for grp.h... (cached) yes
+checking for nss_common.h... no
+checking for nss.h... yes
+checking for db.h... yes
+checking for db_185.h... yes
+checking for aio.h... yes
+checking for sys/capability.h... no
+checking for ip_compat.h... no
+checking for ip_fil_compat.h... no
+checking for ip_fil.h... no
+checking for ip_nat.h... no
+checking for ipl.h... no
+checking for netinet/ip_compat.h... no
+checking for netinet/ip_fil_compat.h... no
+checking for netinet/ip_fil.h... no
+checking for netinet/ip_nat.h... no
+checking for netinet/ipl.h... no
+checking for an ANSI C-conforming const... yes
+checking whether byte ordering is bigendian... no
+checking for inline... inline
+checking if ANSI prototypes work... yes
+checking for tm->tm_gmtoff... yes
+checking for struct mallinfo... yes
+checking for extended mallinfo... no
+checking for struct rusage... yes
+checking for ip->ip_hl... yes
+checking size of void *... 8
+checking size of char... 1
+checking size of short... 2
+checking size of int... 4
+checking size of long... 8
+checking size of long long... 8
+checking size of int8_t... 1
+checking size of uint8_t... 1
+checking size of u_int8_t... 1
+checking size of int16_t... 2
+checking size of uint16_t... 2
+checking size of u_int16_t... 2
+checking size of int32_t... 4
+checking size of uint32_t... 4
+checking size of u_int32_t... 4
+checking size of int64_t... 8
+checking size of uint64_t... 8
+checking size of u_int64_t... 8
+checking size of __int64... 0
+checking for int8_t... yes
+checking for u_int8_t... yes
+checking for uint8_t... yes
+checking for int16_t... yes
+checking for u_int16_t... yes
+checking for uint16_t... yes
+checking for int32_t... yes
+checking for u_int32_t... yes
+checking for uint32_t... yes
+checking for int64_t... yes
+checking for u_int64_t... yes
+checking for uint64_t... yes
+checking for pid_t... yes
+checking for size_t... yes
+checking for ssize_t... yes
+checking for off_t... yes
+checking for mode_t... yes
+checking for fd_mask... yes
+checking size of off_t... 8
+checking size of size_t... 8
+checking for working alloca.h... yes
+checking for alloca... yes
+checking for socklen_t... yes
+checking for mtyp_t... no
+checking for library containing cap_clear_flag... no
+checking for cap_clear_flag... no
+checking for library containing gethostbyname... none required
+checking for library containing socket... none required
+checking for library containing yp_match... -lnsl
+checking for unix domain sockets... yes
+checking for malloc in -lgnumalloc... no
+checking for malloc in -lmalloc... no
+checking for regcomp in -lregex... no
+checking for rint in -lm... yes
+checking for library containing crypt... -lcrypt
+checking for library containing MD5Init... no
+checking for pthread_create in -lpthread... yes
+checking for library containing aio_read... -lrt
+checking for library containing epoll_ctl... none required
+checking for open in -llber... yes
+checking if dbopen needs -ldb... yes
+checking for bcopy... yes
+checking for backtrace_symbols_fd... yes
+checking for fchmod... yes
+checking for getdtablesize... yes
+checking for getpagesize... yes
+checking for getpass... yes
+checking for getrusage... yes
+checking for getspnam... yes
+checking for gettimeofday... yes
+checking for glob... yes
+checking for kqueue... no
+checking for lrand48... yes
+checking for mallinfo... yes
+checking for mallocblksize... no
+checking for MD5Init... no
+checking for mallopt... yes
+checking for memcpy... yes
+checking for memmove... yes
+checking for memset... yes
+checking for mkstemp... yes
+checking for mktime... yes
+checking for mstats... no
+checking for poll... yes
+checking for prctl... yes
+checking for pthread_attr_setscope... yes
+checking for pthread_setschedparam... yes
+checking for pthread_attr_setschedparam... yes
+checking for pthread_sigmask... yes
+checking for putenv... yes
+checking for random... yes
+checking for regcomp... yes
+checking for regexec... yes
+checking for regfree... yes
+checking for res_init... no
+checking for __res_init... yes
+checking for rint... yes
+checking for sbrk... yes
+checking for select... yes
+checking for seteuid... yes
+checking for setgroups... yes
+checking for setpgrp... yes
+checking for setrlimit... yes
+checking for getrlimit... yes
+checking for setsid... yes
+checking for sigaction... yes
+checking for snprintf... yes
+checking for socketpair... yes
+checking for srand48... yes
+checking for srandom... yes
+checking for statfs... yes
+checking for strsep... yes
+checking for strtoll... yes
+checking for sysconf... yes
+checking for syslog... yes
+checking for timegm... yes
+checking for vsnprintf... yes
+checking for epoll_ctl... yes
+checking for crypt... yes
+checking if epoll works... yes
+Using epoll for the IO loop.
+checking if AF_UNIX dgram sockets support large packets... yes
+checking if setresuid is implemented... (cached) yes
+checking if va_copy is implemented... yes
+checking if __va_copy is implemented... yes
+checking if Linux 2.4 or newer kernel header files are installed... yes
+checking if GNUregex needs to be compiled... no
+checking for drand48... yes
+checking for tempnam... yes
+checking for strerror... yes
+checking for initgroups... yes
+checking Default FD_SETSIZE value... 1024
+Maximum filedescriptors set to 65536
+checking Default UDP send buffer size... 229376
+checking Default UDP receive buffer size... 229376
+checking Default TCP send buffer size... 16384
+checking Default TCP receive buffer size... 87380
+Limiting receive buffer size to 64K
+checking if sys_errlist is already defined... no
+checking if inet_ntoa() actually works... "yes"
+checking for working statvfs() interface... yes
+checking for _res.nsaddr_list... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating lib/Makefile
+config.status: creating scripts/Makefile
+config.status: creating scripts/RunCache
+config.status: creating src/Makefile
+config.status: creating src/fs/Makefile
+config.status: creating src/repl/Makefile
+config.status: creating src/auth/Makefile
+config.status: creating contrib/Makefile
+config.status: creating snmplib/Makefile
+config.status: creating icons/Makefile
+config.status: creating errors/Makefile
+config.status: creating doc/Makefile
+config.status: creating helpers/Makefile
+config.status: creating helpers/basic_auth/Makefile
+config.status: creating helpers/basic_auth/LDAP/Makefile
+config.status: creating helpers/basic_auth/MSNT/Makefile
+config.status: creating helpers/basic_auth/NCSA/Makefile
+config.status: creating helpers/basic_auth/PAM/Makefile
+config.status: creating helpers/basic_auth/SMB/Makefile
+config.status: creating helpers/basic_auth/YP/Makefile
+config.status: creating helpers/basic_auth/getpwnam/Makefile
+config.status: creating helpers/basic_auth/mswin_sspi/Makefile
+config.status: creating helpers/basic_auth/multi-domain-NTLM/Makefile
+config.status: creating helpers/basic_auth/SASL/Makefile
+config.status: creating helpers/basic_auth/POP3/Makefile
+config.status: creating helpers/basic_auth/DB/Makefile
+config.status: creating helpers/basic_auth/squid_radius_auth/Makefile
+config.status: creating helpers/digest_auth/Makefile
+config.status: creating helpers/digest_auth/password/Makefile
+config.status: creating helpers/digest_auth/ldap/Makefile
+config.status: creating helpers/digest_auth/eDirectory/Makefile
+config.status: creating helpers/ntlm_auth/Makefile
+config.status: creating helpers/ntlm_auth/fakeauth/Makefile
+config.status: creating helpers/ntlm_auth/mswin_sspi/Makefile
+config.status: creating helpers/ntlm_auth/no_check/Makefile
+config.status: creating helpers/ntlm_auth/SMB/Makefile
+config.status: creating helpers/ntlm_auth/SMB/smbval/Makefile
+config.status: creating helpers/negotiate_auth/Makefile
+config.status: creating helpers/negotiate_auth/mswin_sspi/Makefile
+config.status: creating helpers/negotiate_auth/squid_kerb_auth/Makefile
+config.status: creating helpers/external_acl/Makefile
+config.status: creating helpers/external_acl/ip_user/Makefile
+config.status: creating helpers/external_acl/ldap_group/Makefile
+config.status: creating helpers/external_acl/mswin_ad_group/Makefile
+config.status: creating helpers/external_acl/mswin_lm_group/Makefile
+config.status: creating helpers/external_acl/session/Makefile
+config.status: creating helpers/external_acl/unix_group/Makefile
+config.status: creating helpers/external_acl/wbinfo_group/Makefile
+config.status: creating tools/Makefile
+config.status: creating include/autoconf.h
+config.status: executing depfiles commands
+test -f src/squid.h
+/usr/bin/make logdir=/var/log/squid DEFAULT_CACHE_LOG=/var/log/squid/cache.log DEFAULT_ACCESS_LOG=/var/log/squid/access.log DEFAULT_STORE_LOG=/var/log/squid/store.log DEFAULT_PID_FILE=/var/run/squid.pid DEFAULT_SWAP_DIR=/var/spool/squid DEFAULT_ICON_DIR=/usr/share/squid/icons DEFAULT_ERROR_DIR=/usr/share/squid/errors/en DEFAULT_MIME_TABLE=/usr/share/squid/mime.conf DEFAULT_MIB_PATH=/usr/share/snmp/mibs/SQUID.txt all
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9'
+Making all in lib
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/lib'
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT Array.o -MD -MP -MF .deps/Array.Tpo -c -o Array.o Array.c
+mv -f .deps/Array.Tpo .deps/Array.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT base64.o -MD -MP -MF .deps/base64.Tpo -c -o base64.o base64.c
+mv -f .deps/base64.Tpo .deps/base64.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT getfullhostname.o -MD -MP -MF .deps/getfullhostname.Tpo -c -o getfullhostname.o getfullhostname.c
+mv -f .deps/getfullhostname.Tpo .deps/getfullhostname.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT hash.o -MD -MP -MF .deps/hash.Tpo -c -o hash.o hash.c
+mv -f .deps/hash.Tpo .deps/hash.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT heap.o -MD -MP -MF .deps/heap.Tpo -c -o heap.o heap.c
+mv -f .deps/heap.Tpo .deps/heap.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT html_quote.o -MD -MP -MF .deps/html_quote.Tpo -c -o html_quote.o html_quote.c
+mv -f .deps/html_quote.Tpo .deps/html_quote.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT iso3307.o -MD -MP -MF .deps/iso3307.Tpo -c -o iso3307.o iso3307.c
+mv -f .deps/iso3307.Tpo .deps/iso3307.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT md5.o -MD -MP -MF .deps/md5.Tpo -c -o md5.o md5.c
+mv -f .deps/md5.Tpo .deps/md5.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT radix.o -MD -MP -MF .deps/radix.Tpo -c -o radix.o radix.c
+mv -f .deps/radix.Tpo .deps/radix.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT rfc1035.o -MD -MP -MF .deps/rfc1035.Tpo -c -o rfc1035.o rfc1035.c
+mv -f .deps/rfc1035.Tpo .deps/rfc1035.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT rfc1123.o -MD -MP -MF .deps/rfc1123.Tpo -c -o rfc1123.o rfc1123.c
+mv -f .deps/rfc1123.Tpo .deps/rfc1123.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT rfc1738.o -MD -MP -MF .deps/rfc1738.Tpo -c -o rfc1738.o rfc1738.c
+mv -f .deps/rfc1738.Tpo .deps/rfc1738.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT rfc2617.o -MD -MP -MF .deps/rfc2617.Tpo -c -o rfc2617.o rfc2617.c
+mv -f .deps/rfc2617.Tpo .deps/rfc2617.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT safe_inet_addr.o -MD -MP -MF .deps/safe_inet_addr.Tpo -c -o safe_inet_addr.o safe_inet_addr.c
+mv -f .deps/safe_inet_addr.Tpo .deps/safe_inet_addr.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT splay.o -MD -MP -MF .deps/splay.Tpo -c -o splay.o splay.c
+mv -f .deps/splay.Tpo .deps/splay.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT Stack.o -MD -MP -MF .deps/Stack.Tpo -c -o Stack.o Stack.c
+mv -f .deps/Stack.Tpo .deps/Stack.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT stub_memaccount.o -MD -MP -MF .deps/stub_memaccount.Tpo -c -o stub_memaccount.o stub_memaccount.c
+mv -f .deps/stub_memaccount.Tpo .deps/stub_memaccount.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT util.o -MD -MP -MF .deps/util.Tpo -c -o util.o util.c
+util.c: In function ‘default_failure_notify’:
+util.c:742:10: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
+util.c:743:10: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
+mv -f .deps/util.Tpo .deps/util.Po
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT uudecode.o -MD -MP -MF .deps/uudecode.Tpo -c -o uudecode.o uudecode.c
+mv -f .deps/uudecode.Tpo .deps/uudecode.Po
+rm -f libmiscutil.a
+/usr/bin/ar cru libmiscutil.a Array.o base64.o getfullhostname.o hash.o heap.o html_quote.o iso3307.o md5.o radix.o rfc1035.o rfc1123.o rfc1738.o rfc2617.o safe_inet_addr.o  splay.o Stack.o  stub_memaccount.o util.o uudecode.o  
+ranlib libmiscutil.a
+gcc -DHAVE_CONFIG_H -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ntlmauth.o -MD -MP -MF .deps/ntlmauth.Tpo -c -o ntlmauth.o ntlmauth.c
+mv -f .deps/ntlmauth.Tpo .deps/ntlmauth.Po
+rm -f libntlmauth.a
+/usr/bin/ar cru libntlmauth.a ntlmauth.o 
+ranlib libntlmauth.a
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/lib'
+Making all in snmplib
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/snmplib'
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT asn1.o -MD -MP -MF .deps/asn1.Tpo -c -o asn1.o asn1.c
+mv -f .deps/asn1.Tpo .deps/asn1.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT parse.o -MD -MP -MF .deps/parse.Tpo -c -o parse.o parse.c
+mv -f .deps/parse.Tpo .deps/parse.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_vars.o -MD -MP -MF .deps/snmp_vars.Tpo -c -o snmp_vars.o snmp_vars.c
+mv -f .deps/snmp_vars.Tpo .deps/snmp_vars.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT coexistance.o -MD -MP -MF .deps/coexistance.Tpo -c -o coexistance.o coexistance.c
+mv -f .deps/coexistance.Tpo .deps/coexistance.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_api.o -MD -MP -MF .deps/snmp_api.Tpo -c -o snmp_api.o snmp_api.c
+mv -f .deps/snmp_api.Tpo .deps/snmp_api.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_error.o -MD -MP -MF .deps/snmp_error.Tpo -c -o snmp_error.o snmp_error.c
+mv -f .deps/snmp_error.Tpo .deps/snmp_error.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT mib.o -MD -MP -MF .deps/mib.Tpo -c -o mib.o mib.c
+mv -f .deps/mib.Tpo .deps/mib.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_api_error.o -MD -MP -MF .deps/snmp_api_error.Tpo -c -o snmp_api_error.o snmp_api_error.c
+mv -f .deps/snmp_api_error.Tpo .deps/snmp_api_error.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_msg.o -MD -MP -MF .deps/snmp_msg.Tpo -c -o snmp_msg.o snmp_msg.c
+mv -f .deps/snmp_msg.Tpo .deps/snmp_msg.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_pdu.o -MD -MP -MF .deps/snmp_pdu.Tpo -c -o snmp_pdu.o snmp_pdu.c
+mv -f .deps/snmp_pdu.Tpo .deps/snmp_pdu.Po
+gcc -DSQUID_SNMP=1 -I. -I../include -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmplib_debug.o -MD -MP -MF .deps/snmplib_debug.Tpo -c -o snmplib_debug.o snmplib_debug.c
+mv -f .deps/snmplib_debug.Tpo .deps/snmplib_debug.Po
+rm -f libsnmp.a
+/usr/bin/ar cru libsnmp.a asn1.o parse.o snmp_vars.o coexistance.o snmp_api.o snmp_error.o mib.o snmp_api_error.o snmp_msg.o snmp_pdu.o snmplib_debug.o 
+ranlib libsnmp.a
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/snmplib'
+Making all in scripts
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/scripts'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/scripts'
+Making all in src
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/src'
+awk -f ./cf_gen_defines <./cf.data.pre >cf_gen_defines.h
+sed "\
+	s%@DEFAULT_HTTP_PORT@%3128%g;\
+	s%@DEFAULT_ICP_PORT@%3130%g;\
+	s%@DEFAULT_MIME_TABLE@%/usr/share/squid/mime.conf%g;\
+	s%@DEFAULT_DNSSERVER@%/usr/lib/squid/`echo dnsserver | sed 's,x,x,;s/$//'`%g;\
+	s%@DEFAULT_UNLINKD@%/usr/lib/squid/`echo unlinkd | sed 's,x,x,;s/$//'`%g;\
+	s%@DEFAULT_PINGER@%/usr/lib/squid/`echo pinger | sed 's,x,x,;s/$//'`%g;\
+	s%@DEFAULT_DISKD@%/usr/lib/squid/`echo diskd-daemon | sed 's,x,x,;s/$//'`%g;\
+	s%@DEFAULT_LOGFILED@%/usr/lib/squid/`echo logfile-daemon | sed 's,x,x,;s/$//'`%g;\
+	s%@DEFAULT_CACHE_LOG@%/var/log/squid/cache.log%g;\
+	s%@DEFAULT_ACCESS_LOG@%/var/log/squid/access.log%g;\
+	s%@DEFAULT_STORE_LOG@%/var/log/squid/store.log%g;\
+	s%@DEFAULT_PID_FILE@%/var/run/squid.pid%g;\
+	s%@DEFAULT_NETDB_FILE@%/var/spool/squid/logs/netdb.state%g;\
+	s%@DEFAULT_SWAP_DIR@%/var/spool/squid%g;\
+	s%@DEFAULT_ICON_DIR@%/usr/share/squid/icons%g;\
+	s%@DEFAULT_MIB_PATH@%/usr/share/snmp/mibs/SQUID.txt%g;\
+	s%@DEFAULT_ERROR_DIR@%/usr/share/squid/errors/en%g;\
+	s%@DEFAULT_PREFIX@%/usr%g;\
+	s%@DEFAULT_HOSTS@%/etc/hosts%g;\
+	s%@[V]ERSION@%2.7.STABLE9%g;"\
+	< ./cf.data.pre >cf.data
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT cf_gen.o -MD -MP -MF .deps/cf_gen.Tpo -c -o cf_gen.o cf_gen.c
+mv -f .deps/cf_gen.Tpo .deps/cf_gen.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT debug.o -MD -MP -MF .deps/debug.Tpo -c -o debug.o debug.c
+mv -f .deps/debug.Tpo .deps/debug.Po
+/usr/bin/perl ./mk-globals-c.pl < ./globals.h > globals.c
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT globals.o -MD -MP -MF .deps/globals.Tpo -c -o globals.o globals.c
+mv -f .deps/globals.Tpo .deps/globals.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o cf_gen cf_gen.o debug.o globals.o -L../lib -lmiscutil -lrt -lpthread -lm 
+./cf_gen cf.data ./cf.data.depend
+/usr/bin/perl ./mk-string-arrays.pl < ./enums.h > string_arrays.c
+/bin/bash ./repl_modules.sh lru heap > repl_modules.c
+/bin/bash ./store_modules.sh ufs aufs coss diskd null >store_modules.c
+/usr/bin/make  all-recursive
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/src'
+Making all in fs
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src/fs'
+depbase=`echo ufs/store_dir_ufs.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT ufs/store_dir_ufs.o -MD -MP -MF $depbase.Tpo -c -o ufs/store_dir_ufs.o ufs/store_dir_ufs.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo ufs/store_io_ufs.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT ufs/store_io_ufs.o -MD -MP -MF $depbase.Tpo -c -o ufs/store_io_ufs.o ufs/store_io_ufs.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libufs.a
+/usr/bin/ar cru libufs.a ufs/store_dir_ufs.o ufs/store_io_ufs.o 
+ranlib libufs.a
+depbase=`echo aufs/aiops.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT aufs/aiops.o -MD -MP -MF $depbase.Tpo -c -o aufs/aiops.o aufs/aiops.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+aufs/aiops.c: In function ‘squidaio_init’:
+aufs/aiops.c:311:9: warning: ignoring return value of ‘pipe’, declared with attribute warn_unused_result [-Wunused-result]
+depbase=`echo aufs/async_io.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT aufs/async_io.o -MD -MP -MF $depbase.Tpo -c -o aufs/async_io.o aufs/async_io.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo aufs/store_dir_aufs.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT aufs/store_dir_aufs.o -MD -MP -MF $depbase.Tpo -c -o aufs/store_dir_aufs.o aufs/store_dir_aufs.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo aufs/store_io_aufs.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT aufs/store_io_aufs.o -MD -MP -MF $depbase.Tpo -c -o aufs/store_io_aufs.o aufs/store_io_aufs.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libaufs.a
+/usr/bin/ar cru libaufs.a aufs/aiops.o aufs/async_io.o aufs/store_dir_aufs.o aufs/store_io_aufs.o 
+ranlib libaufs.a
+depbase=`echo coss/store_io_coss.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT coss/store_io_coss.o -MD -MP -MF $depbase.Tpo -c -o coss/store_io_coss.o coss/store_io_coss.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo coss/store_dir_coss.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT coss/store_dir_coss.o -MD -MP -MF $depbase.Tpo -c -o coss/store_dir_coss.o coss/store_dir_coss.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo coss/async_io.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT coss/async_io.o -MD -MP -MF $depbase.Tpo -c -o coss/async_io.o coss/async_io.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libcoss.a
+/usr/bin/ar cru libcoss.a coss/store_io_coss.o coss/store_dir_coss.o coss/async_io.o 
+ranlib libcoss.a
+depbase=`echo diskd/diskd.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT diskd/diskd.o -MD -MP -MF $depbase.Tpo -c -o diskd/diskd.o diskd/diskd.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo diskd/store_dir_diskd.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT diskd/store_dir_diskd.o -MD -MP -MF $depbase.Tpo -c -o diskd/store_dir_diskd.o diskd/store_dir_diskd.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo diskd/store_io_diskd.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT diskd/store_io_diskd.o -MD -MP -MF $depbase.Tpo -c -o diskd/store_io_diskd.o diskd/store_io_diskd.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libdiskd.a
+/usr/bin/ar cru libdiskd.a diskd/diskd.o diskd/store_dir_diskd.o diskd/store_io_diskd.o 
+ranlib libdiskd.a
+depbase=`echo null/store_null.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT null/store_null.o -MD -MP -MF $depbase.Tpo -c -o null/store_null.o null/store_null.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libnull.a
+/usr/bin/ar cru libnull.a null/store_null.o 
+ranlib libnull.a
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o diskd-daemon diskd/diskd.o ../../lib/libmiscutil.a -lrt -lpthread -lm 
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src/fs'
+Making all in repl
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src/repl'
+depbase=`echo lru/store_repl_lru.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT lru/store_repl_lru.o -MD -MP -MF $depbase.Tpo -c -o lru/store_repl_lru.o lru/store_repl_lru.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f liblru.a
+/usr/bin/ar cru liblru.a lru/store_repl_lru.o 
+ranlib liblru.a
+depbase=`echo heap/store_heap_replacement.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT heap/store_heap_replacement.o -MD -MP -MF $depbase.Tpo -c -o heap/store_heap_replacement.o heap/store_heap_replacement.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+depbase=`echo heap/store_repl_heap.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT heap/store_repl_heap.o -MD -MP -MF $depbase.Tpo -c -o heap/store_repl_heap.o heap/store_repl_heap.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libheap.a
+/usr/bin/ar cru libheap.a heap/store_heap_replacement.o heap/store_repl_heap.o 
+ranlib libheap.a
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src/repl'
+Making all in auth
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src/auth'
+depbase=`echo basic/auth_basic.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT basic/auth_basic.o -MD -MP -MF $depbase.Tpo -c -o basic/auth_basic.o basic/auth_basic.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libbasic.a
+/usr/bin/ar cru libbasic.a basic/auth_basic.o 
+ranlib libbasic.a
+depbase=`echo digest/auth_digest.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT digest/auth_digest.o -MD -MP -MF $depbase.Tpo -c -o digest/auth_digest.o digest/auth_digest.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+rm -f libdigest.a
+/usr/bin/ar cru libdigest.a digest/auth_digest.o 
+ranlib libdigest.a
+depbase=`echo ntlm/auth_ntlm.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT ntlm/auth_ntlm.o -MD -MP -MF $depbase.Tpo -c -o ntlm/auth_ntlm.o ntlm/auth_ntlm.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+ntlm/auth_ntlm.c: In function ‘authenticateNTLMAuthenticateUser’:
+ntlm/auth_ntlm.c:660:18: warning: variable ‘ntlm_user’ set but not used [-Wunused-but-set-variable]
+rm -f libntlm.a
+/usr/bin/ar cru libntlm.a ntlm/auth_ntlm.o 
+ranlib libntlm.a
+depbase=`echo negotiate/auth_negotiate.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../../include -I. -I../../include -I../../include -I../../src    -m64 -Wall -g -O2 -D_REENTRANT -MT negotiate/auth_negotiate.o -MD -MP -MF $depbase.Tpo -c -o negotiate/auth_negotiate.o negotiate/auth_negotiate.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+negotiate/auth_negotiate.c: In function ‘authenticateNegotiateAuthenticateUser’:
+negotiate/auth_negotiate.c:704:23: warning: variable ‘negotiate_user’ set but not used [-Wunused-but-set-variable]
+rm -f libnegotiate.a
+/usr/bin/ar cru libnegotiate.a negotiate/auth_negotiate.o 
+ranlib libnegotiate.a
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src/auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src'
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -DUNLINK_DAEMON -c ./unlinkd.c -o unlinkd-daemon.o
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o unlinkd  unlinkd-daemon.o 
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT logfile-daemon.o -MD -MP -MF .deps/logfile-daemon.Tpo -c -o logfile-daemon.o logfile-daemon.c
+mv -f .deps/logfile-daemon.Tpo .deps/logfile-daemon.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o logfile-daemon logfile-daemon.o -L../lib -lmiscutil -lrt -lpthread -lm 
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT access_log.o -MD -MP -MF .deps/access_log.Tpo -c -o access_log.o access_log.c
+mv -f .deps/access_log.Tpo .deps/access_log.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT acl.o -MD -MP -MF .deps/acl.Tpo -c -o acl.o acl.c
+mv -f .deps/acl.Tpo .deps/acl.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT asn.o -MD -MP -MF .deps/asn.Tpo -c -o asn.o asn.c
+mv -f .deps/asn.Tpo .deps/asn.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT authenticate.o -MD -MP -MF .deps/authenticate.Tpo -c -o authenticate.o authenticate.c
+authenticate.c: In function ‘authenticateAuthUserRequestFindByIp’:
+authenticate.c:336:26: warning: variable ‘auth_user_request’ set but not used [-Wunused-but-set-variable]
+mv -f .deps/authenticate.Tpo .deps/authenticate.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT cache_cf.o -MD -MP -MF .deps/cache_cf.Tpo -c -o cache_cf.o cache_cf.c
+mv -f .deps/cache_cf.Tpo .deps/cache_cf.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT CacheDigest.o -MD -MP -MF .deps/CacheDigest.Tpo -c -o CacheDigest.o CacheDigest.c
+mv -f .deps/CacheDigest.Tpo .deps/CacheDigest.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT cache_manager.o -MD -MP -MF .deps/cache_manager.Tpo -c -o cache_manager.o cache_manager.c
+mv -f .deps/cache_manager.Tpo .deps/cache_manager.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT carp.o -MD -MP -MF .deps/carp.Tpo -c -o carp.o carp.c
+mv -f .deps/carp.Tpo .deps/carp.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT cbdata.o -MD -MP -MF .deps/cbdata.Tpo -c -o cbdata.o cbdata.c
+mv -f .deps/cbdata.Tpo .deps/cbdata.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT client_db.o -MD -MP -MF .deps/client_db.Tpo -c -o client_db.o client_db.c
+mv -f .deps/client_db.Tpo .deps/client_db.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT client_side.o -MD -MP -MF .deps/client_side.Tpo -c -o client_side.o client_side.c
+client_side.c: In function ‘parseHttpRequest’:
+client_side.c:3677:12: warning: variable ‘header_sz’ set but not used [-Wunused-but-set-variable]
+mv -f .deps/client_side.Tpo .deps/client_side.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT client_side_rewrite.o -MD -MP -MF .deps/client_side_rewrite.Tpo -c -o client_side_rewrite.o client_side_rewrite.c
+mv -f .deps/client_side_rewrite.Tpo .deps/client_side_rewrite.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT client_side_storeurl_rewrite.o -MD -MP -MF .deps/client_side_storeurl_rewrite.Tpo -c -o client_side_storeurl_rewrite.o client_side_storeurl_rewrite.c
+mv -f .deps/client_side_storeurl_rewrite.Tpo .deps/client_side_storeurl_rewrite.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT comm.o -MD -MP -MF .deps/comm.Tpo -c -o comm.o comm.c
+mv -f .deps/comm.Tpo .deps/comm.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT comm_epoll.o -MD -MP -MF .deps/comm_epoll.Tpo -c -o comm_epoll.o comm_epoll.c
+mv -f .deps/comm_epoll.Tpo .deps/comm_epoll.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT delay_pools.o -MD -MP -MF .deps/delay_pools.Tpo -c -o delay_pools.o delay_pools.c
+mv -f .deps/delay_pools.Tpo .deps/delay_pools.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT disk.o -MD -MP -MF .deps/disk.Tpo -c -o disk.o disk.c
+mv -f .deps/disk.Tpo .deps/disk.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT dns_internal.o -MD -MP -MF .deps/dns_internal.Tpo -c -o dns_internal.o dns_internal.c
+mv -f .deps/dns_internal.Tpo .deps/dns_internal.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT errorpage.o -MD -MP -MF .deps/errorpage.Tpo -c -o errorpage.o errorpage.c
+mv -f .deps/errorpage.Tpo .deps/errorpage.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT event.o -MD -MP -MF .deps/event.Tpo -c -o event.o event.c
+mv -f .deps/event.Tpo .deps/event.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT errormap.o -MD -MP -MF .deps/errormap.Tpo -c -o errormap.o errormap.c
+mv -f .deps/errormap.Tpo .deps/errormap.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT external_acl.o -MD -MP -MF .deps/external_acl.Tpo -c -o external_acl.o external_acl.c
+mv -f .deps/external_acl.Tpo .deps/external_acl.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT fd.o -MD -MP -MF .deps/fd.Tpo -c -o fd.o fd.c
+mv -f .deps/fd.Tpo .deps/fd.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT filemap.o -MD -MP -MF .deps/filemap.Tpo -c -o filemap.o filemap.c
+mv -f .deps/filemap.Tpo .deps/filemap.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT forward.o -MD -MP -MF .deps/forward.Tpo -c -o forward.o forward.c
+forward.c: In function ‘fwdStateFree’:
+forward.c:95:11: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+mv -f .deps/forward.Tpo .deps/forward.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT fqdncache.o -MD -MP -MF .deps/fqdncache.Tpo -c -o fqdncache.o fqdncache.c
+fqdncache.c: In function ‘fqdncacheHandleReply’:
+fqdncache.c:336:9: warning: variable ‘n’ set but not used [-Wunused-but-set-variable]
+mv -f .deps/fqdncache.Tpo .deps/fqdncache.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ftp.o -MD -MP -MF .deps/ftp.Tpo -c -o ftp.o ftp.c
+mv -f .deps/ftp.Tpo .deps/ftp.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT gopher.o -MD -MP -MF .deps/gopher.Tpo -c -o gopher.o gopher.c
+mv -f .deps/gopher.Tpo .deps/gopher.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT helper.o -MD -MP -MF .deps/helper.Tpo -c -o helper.o helper.c
+mv -f .deps/helper.Tpo .deps/helper.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT htcp.o -MD -MP -MF .deps/htcp.Tpo -c -o htcp.o htcp.c
+mv -f .deps/htcp.Tpo .deps/htcp.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT http.o -MD -MP -MF .deps/http.Tpo -c -o http.o http.c
+mv -f .deps/http.Tpo .deps/http.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpStatusLine.o -MD -MP -MF .deps/HttpStatusLine.Tpo -c -o HttpStatusLine.o HttpStatusLine.c
+mv -f .deps/HttpStatusLine.Tpo .deps/HttpStatusLine.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpHdrCc.o -MD -MP -MF .deps/HttpHdrCc.Tpo -c -o HttpHdrCc.o HttpHdrCc.c
+mv -f .deps/HttpHdrCc.Tpo .deps/HttpHdrCc.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpHdrRange.o -MD -MP -MF .deps/HttpHdrRange.Tpo -c -o HttpHdrRange.o HttpHdrRange.c
+mv -f .deps/HttpHdrRange.Tpo .deps/HttpHdrRange.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpHdrContRange.o -MD -MP -MF .deps/HttpHdrContRange.Tpo -c -o HttpHdrContRange.o HttpHdrContRange.c
+mv -f .deps/HttpHdrContRange.Tpo .deps/HttpHdrContRange.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpHeader.o -MD -MP -MF .deps/HttpHeader.Tpo -c -o HttpHeader.o HttpHeader.c
+mv -f .deps/HttpHeader.Tpo .deps/HttpHeader.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpHeaderTools.o -MD -MP -MF .deps/HttpHeaderTools.Tpo -c -o HttpHeaderTools.o HttpHeaderTools.c
+mv -f .deps/HttpHeaderTools.Tpo .deps/HttpHeaderTools.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpBody.o -MD -MP -MF .deps/HttpBody.Tpo -c -o HttpBody.o HttpBody.c
+mv -f .deps/HttpBody.Tpo .deps/HttpBody.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpMsg.o -MD -MP -MF .deps/HttpMsg.Tpo -c -o HttpMsg.o HttpMsg.c
+mv -f .deps/HttpMsg.Tpo .deps/HttpMsg.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpReply.o -MD -MP -MF .deps/HttpReply.Tpo -c -o HttpReply.o HttpReply.c
+mv -f .deps/HttpReply.Tpo .deps/HttpReply.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT HttpRequest.o -MD -MP -MF .deps/HttpRequest.Tpo -c -o HttpRequest.o HttpRequest.c
+mv -f .deps/HttpRequest.Tpo .deps/HttpRequest.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT icmp.o -MD -MP -MF .deps/icmp.Tpo -c -o icmp.o icmp.c
+mv -f .deps/icmp.Tpo .deps/icmp.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT icp_v2.o -MD -MP -MF .deps/icp_v2.Tpo -c -o icp_v2.o icp_v2.c
+mv -f .deps/icp_v2.Tpo .deps/icp_v2.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT icp_v3.o -MD -MP -MF .deps/icp_v3.Tpo -c -o icp_v3.o icp_v3.c
+mv -f .deps/icp_v3.Tpo .deps/icp_v3.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ident.o -MD -MP -MF .deps/ident.Tpo -c -o ident.o ident.c
+mv -f .deps/ident.Tpo .deps/ident.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT internal.o -MD -MP -MF .deps/internal.Tpo -c -o internal.o internal.c
+mv -f .deps/internal.Tpo .deps/internal.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ipc.o -MD -MP -MF .deps/ipc.Tpo -c -o ipc.o ipc.c
+mv -f .deps/ipc.Tpo .deps/ipc.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ipcache.o -MD -MP -MF .deps/ipcache.Tpo -c -o ipcache.o ipcache.c
+mv -f .deps/ipcache.Tpo .deps/ipcache.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT locrewrite.o -MD -MP -MF .deps/locrewrite.Tpo -c -o locrewrite.o locrewrite.c
+mv -f .deps/locrewrite.Tpo .deps/locrewrite.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT logfile.o -MD -MP -MF .deps/logfile.Tpo -c -o logfile.o logfile.c
+mv -f .deps/logfile.Tpo .deps/logfile.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT logfile_mod_daemon.o -MD -MP -MF .deps/logfile_mod_daemon.Tpo -c -o logfile_mod_daemon.o logfile_mod_daemon.c
+mv -f .deps/logfile_mod_daemon.Tpo .deps/logfile_mod_daemon.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT logfile_mod_stdio.o -MD -MP -MF .deps/logfile_mod_stdio.Tpo -c -o logfile_mod_stdio.o logfile_mod_stdio.c
+mv -f .deps/logfile_mod_stdio.Tpo .deps/logfile_mod_stdio.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT logfile_mod_syslog.o -MD -MP -MF .deps/logfile_mod_syslog.Tpo -c -o logfile_mod_syslog.o logfile_mod_syslog.c
+mv -f .deps/logfile_mod_syslog.Tpo .deps/logfile_mod_syslog.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT logfile_mod_udp.o -MD -MP -MF .deps/logfile_mod_udp.Tpo -c -o logfile_mod_udp.o logfile_mod_udp.c
+mv -f .deps/logfile_mod_udp.Tpo .deps/logfile_mod_udp.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT main.o -MD -MP -MF .deps/main.Tpo -c -o main.o main.c
+mv -f .deps/main.Tpo .deps/main.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT mem.o -MD -MP -MF .deps/mem.Tpo -c -o mem.o mem.c
+mv -f .deps/mem.Tpo .deps/mem.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT MemPool.o -MD -MP -MF .deps/MemPool.Tpo -c -o MemPool.o MemPool.c
+mv -f .deps/MemPool.Tpo .deps/MemPool.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT MemBuf.o -MD -MP -MF .deps/MemBuf.Tpo -c -o MemBuf.o MemBuf.c
+mv -f .deps/MemBuf.Tpo .deps/MemBuf.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT mime.o -MD -MP -MF .deps/mime.Tpo -c -o mime.o mime.c
+mv -f .deps/mime.Tpo .deps/mime.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT multicast.o -MD -MP -MF .deps/multicast.Tpo -c -o multicast.o multicast.c
+mv -f .deps/multicast.Tpo .deps/multicast.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT neighbors.o -MD -MP -MF .deps/neighbors.Tpo -c -o neighbors.o neighbors.c
+neighbors.c: In function ‘neighborsDigestSelect’:
+neighbors.c:645:22: warning: variable ‘key’ set but not used [-Wunused-but-set-variable]
+mv -f .deps/neighbors.Tpo .deps/neighbors.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT net_db.o -MD -MP -MF .deps/net_db.Tpo -c -o net_db.o net_db.c
+mv -f .deps/net_db.Tpo .deps/net_db.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT Packer.o -MD -MP -MF .deps/Packer.Tpo -c -o Packer.o Packer.c
+mv -f .deps/Packer.Tpo .deps/Packer.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT pconn.o -MD -MP -MF .deps/pconn.Tpo -c -o pconn.o pconn.c
+mv -f .deps/pconn.Tpo .deps/pconn.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT peer_digest.o -MD -MP -MF .deps/peer_digest.Tpo -c -o peer_digest.o peer_digest.c
+mv -f .deps/peer_digest.Tpo .deps/peer_digest.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT peer_monitor.o -MD -MP -MF .deps/peer_monitor.Tpo -c -o peer_monitor.o peer_monitor.c
+mv -f .deps/peer_monitor.Tpo .deps/peer_monitor.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT peer_select.o -MD -MP -MF .deps/peer_select.Tpo -c -o peer_select.o peer_select.c
+mv -f .deps/peer_select.Tpo .deps/peer_select.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT peer_sourcehash.o -MD -MP -MF .deps/peer_sourcehash.Tpo -c -o peer_sourcehash.o peer_sourcehash.c
+mv -f .deps/peer_sourcehash.Tpo .deps/peer_sourcehash.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT peer_userhash.o -MD -MP -MF .deps/peer_userhash.Tpo -c -o peer_userhash.o peer_userhash.c
+mv -f .deps/peer_userhash.Tpo .deps/peer_userhash.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT redirect.o -MD -MP -MF .deps/redirect.Tpo -c -o redirect.o redirect.c
+mv -f .deps/redirect.Tpo .deps/redirect.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_rewrite.o -MD -MP -MF .deps/store_rewrite.Tpo -c -o store_rewrite.o store_rewrite.c
+mv -f .deps/store_rewrite.Tpo .deps/store_rewrite.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT referer.o -MD -MP -MF .deps/referer.Tpo -c -o referer.o referer.c
+mv -f .deps/referer.Tpo .deps/referer.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT refresh.o -MD -MP -MF .deps/refresh.Tpo -c -o refresh.o refresh.c
+mv -f .deps/refresh.Tpo .deps/refresh.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT refresh_check.o -MD -MP -MF .deps/refresh_check.Tpo -c -o refresh_check.o refresh_check.c
+mv -f .deps/refresh_check.Tpo .deps/refresh_check.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT send-announce.o -MD -MP -MF .deps/send-announce.Tpo -c -o send-announce.o send-announce.c
+mv -f .deps/send-announce.Tpo .deps/send-announce.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_core.o -MD -MP -MF .deps/snmp_core.Tpo -c -o snmp_core.o snmp_core.c
+mv -f .deps/snmp_core.Tpo .deps/snmp_core.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT snmp_agent.o -MD -MP -MF .deps/snmp_agent.Tpo -c -o snmp_agent.o snmp_agent.c
+mv -f .deps/snmp_agent.Tpo .deps/snmp_agent.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ssl.o -MD -MP -MF .deps/ssl.Tpo -c -o ssl.o ssl.c
+mv -f .deps/ssl.Tpo .deps/ssl.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT stat.o -MD -MP -MF .deps/stat.Tpo -c -o stat.o stat.c
+mv -f .deps/stat.Tpo .deps/stat.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT StatHist.o -MD -MP -MF .deps/StatHist.Tpo -c -o StatHist.o StatHist.c
+mv -f .deps/StatHist.Tpo .deps/StatHist.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT String.o -MD -MP -MF .deps/String.Tpo -c -o String.o String.c
+mv -f .deps/String.Tpo .deps/String.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT stmem.o -MD -MP -MF .deps/stmem.Tpo -c -o stmem.o stmem.c
+mv -f .deps/stmem.Tpo .deps/stmem.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store.o -MD -MP -MF .deps/store.Tpo -c -o store.o store.c
+mv -f .deps/store.Tpo .deps/store.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_io.o -MD -MP -MF .deps/store_io.Tpo -c -o store_io.o store_io.c
+mv -f .deps/store_io.Tpo .deps/store_io.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_client.o -MD -MP -MF .deps/store_client.Tpo -c -o store_client.o store_client.c
+mv -f .deps/store_client.Tpo .deps/store_client.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_digest.o -MD -MP -MF .deps/store_digest.Tpo -c -o store_digest.o store_digest.c
+mv -f .deps/store_digest.Tpo .deps/store_digest.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_dir.o -MD -MP -MF .deps/store_dir.Tpo -c -o store_dir.o store_dir.c
+mv -f .deps/store_dir.Tpo .deps/store_dir.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_key_md5.o -MD -MP -MF .deps/store_key_md5.Tpo -c -o store_key_md5.o store_key_md5.c
+mv -f .deps/store_key_md5.Tpo .deps/store_key_md5.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_log.o -MD -MP -MF .deps/store_log.Tpo -c -o store_log.o store_log.c
+mv -f .deps/store_log.Tpo .deps/store_log.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_rebuild.o -MD -MP -MF .deps/store_rebuild.Tpo -c -o store_rebuild.o store_rebuild.c
+mv -f .deps/store_rebuild.Tpo .deps/store_rebuild.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_swapin.o -MD -MP -MF .deps/store_swapin.Tpo -c -o store_swapin.o store_swapin.c
+mv -f .deps/store_swapin.Tpo .deps/store_swapin.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_swapmeta.o -MD -MP -MF .deps/store_swapmeta.Tpo -c -o store_swapmeta.o store_swapmeta.c
+mv -f .deps/store_swapmeta.Tpo .deps/store_swapmeta.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_swapout.o -MD -MP -MF .deps/store_swapout.Tpo -c -o store_swapout.o store_swapout.c
+mv -f .deps/store_swapout.Tpo .deps/store_swapout.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_update.o -MD -MP -MF .deps/store_update.Tpo -c -o store_update.o store_update.c
+mv -f .deps/store_update.Tpo .deps/store_update.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT tools.o -MD -MP -MF .deps/tools.Tpo -c -o tools.o tools.c
+tools.c: In function ‘mail_warranty’:
+tools.c:140:11: warning: ignoring return value of ‘system’, declared with attribute warn_unused_result [-Wunused-result]
+mv -f .deps/tools.Tpo .deps/tools.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT unlinkd.o -MD -MP -MF .deps/unlinkd.Tpo -c -o unlinkd.o unlinkd.c
+mv -f .deps/unlinkd.Tpo .deps/unlinkd.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT url.o -MD -MP -MF .deps/url.Tpo -c -o url.o url.c
+mv -f .deps/url.Tpo .deps/url.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT urn.o -MD -MP -MF .deps/urn.Tpo -c -o urn.o urn.c
+mv -f .deps/urn.Tpo .deps/urn.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT useragent.o -MD -MP -MF .deps/useragent.Tpo -c -o useragent.o useragent.c
+mv -f .deps/useragent.Tpo .deps/useragent.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT wccp.o -MD -MP -MF .deps/wccp.Tpo -c -o wccp.o wccp.c
+mv -f .deps/wccp.Tpo .deps/wccp.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT wccp2.o -MD -MP -MF .deps/wccp2.Tpo -c -o wccp2.o wccp2.c
+mv -f .deps/wccp2.Tpo .deps/wccp2.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT whois.o -MD -MP -MF .deps/whois.Tpo -c -o whois.o whois.c
+mv -f .deps/whois.Tpo .deps/whois.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT repl_modules.o -MD -MP -MF .deps/repl_modules.Tpo -c -o repl_modules.o repl_modules.c
+mv -f .deps/repl_modules.Tpo .deps/repl_modules.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT auth_modules.o -MD -MP -MF .deps/auth_modules.Tpo -c -o auth_modules.o auth_modules.c
+mv -f .deps/auth_modules.Tpo .deps/auth_modules.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT store_modules.o -MD -MP -MF .deps/store_modules.Tpo -c -o store_modules.o store_modules.c
+mv -f .deps/store_modules.Tpo .deps/store_modules.Po
+gcc -DHAVE_CONFIG_H -DDEFAULT_CONFIG_FILE=\"/etc/squid/squid.conf\" -I. -I../include -I. -I. -I../include -I../include    -m64 -Wall -g -O2 -D_REENTRANT -MT string_arrays.o -MD -MP -MF .deps/string_arrays.Tpo -c -o string_arrays.o string_arrays.c
+mv -f .deps/string_arrays.Tpo .deps/string_arrays.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squid access_log.o acl.o asn.o authenticate.o cache_cf.o CacheDigest.o cache_manager.o carp.o cbdata.o client_db.o client_side.o client_side_rewrite.o client_side_storeurl_rewrite.o comm.o comm_epoll.o debug.o delay_pools.o disk.o dns_internal.o errorpage.o event.o errormap.o external_acl.o fd.o filemap.o forward.o fqdncache.o ftp.o gopher.o helper.o htcp.o http.o HttpStatusLine.o HttpHdrCc.o HttpHdrRange.o HttpHdrContRange.o HttpHeader.o HttpHeaderTools.o HttpBody.o HttpMsg.o HttpReply.o HttpRequest.o icmp.o icp_v2.o icp_v3.o ident.o internal.o ipc.o ipcache.o  locrewrite.o logfile.o logfile_mod_daemon.o logfile_mod_stdio.o logfile_mod_syslog.o logfile_mod_udp.o main.o mem.o MemPool.o MemBuf.o mime.o multicast.o neighbors.o net_db.o Packer.o pconn.o peer_digest.o peer_monitor.o peer_select.o peer_sourcehash.o peer_userhash.o redirect.o store_rewrite.o referer.o refresh.o refresh_check.o send-announce.o snmp_core.o snmp_agent.o ssl.o  stat.o StatHist.o String.o stmem.o store.o store_io.o store_client.o store_digest.o store_dir.o store_key_md5.o store_log.o store_rebuild.o store_swapin.o store_swapmeta.o store_swapout.o store_update.o tools.o unlinkd.o url.o urn.o useragent.o wccp.o wccp2.o whois.o  repl_modules.o auth_modules.o store_modules.o globals.o string_arrays.o -L../lib repl/liblru.a repl/libheap.a fs/libufs.a fs/libaufs.a fs/libcoss.a fs/libdiskd.a fs/libnull.a auth/libbasic.a auth/libdigest.a auth/libntlm.a auth/libnegotiate.a ../snmplib/libsnmp.a -lmiscutil -lrt -lpthread -lm  
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/src'
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/src'
+Making all in icons
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/icons'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/icons'
+Making all in errors
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/errors'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/errors'
+Making all in doc
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/doc'
+sed " s%@DEFAULT_CONFIG_FILE@%/etc/squid/squid.conf%g; s%@DEFAULT_CACHEMGR_CONFIG@%/etc/squid/cachemgr.conf%g; s%@DEFAULT_ERROR_DIR@%/usr/share/squid/errors/en%g; s%@DEFAULT_MIME_TABLE@%/usr/share/squid/mime.conf%g; s%@""PACKAGE_STRING""@%Squid Web Proxy 2.7.STABLE9%g; " < ./squid.8.in > squid.8
+sed " s%@DEFAULT_CONFIG_FILE@%/etc/squid/squid.conf%g; s%@DEFAULT_CACHEMGR_CONFIG@%/etc/squid/cachemgr.conf%g; s%@DEFAULT_ERROR_DIR@%/usr/share/squid/errors/en%g; s%@DEFAULT_MIME_TABLE@%/usr/share/squid/mime.conf%g; s%@""PACKAGE_STRING""@%Squid Web Proxy 2.7.STABLE9%g; " < ./cachemgr.cgi.8.in > cachemgr.cgi.8
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/doc'
+Making all in helpers
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers'
+Making all in basic_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+Making all in ntlm_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+Making all in negotiate_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+Making all in squid_kerb_auth
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth/squid_kerb_auth'
+gcc -DHAVE_CONFIG_H -I. -I../../../include    -I./spnegohelp -I.  -m64 -Wall -g -O2 -D_REENTRANT -MT squid_kerb_auth.o -MD -MP -MF .deps/squid_kerb_auth.Tpo -c -o squid_kerb_auth.o squid_kerb_auth.c
+squid_kerb_auth.c: In function ‘gethost_name’:
+squid_kerb_auth.c:117:11: warning: array subscript is above array bounds [-Warray-bounds]
+mv -f .deps/squid_kerb_auth.Tpo .deps/squid_kerb_auth.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include    -I./spnegohelp -I.  -m64 -Wall -g -O2 -D_REENTRANT -MT base64.o -MD -MP -MF .deps/base64.Tpo -c -o base64.o base64.c
+mv -f .deps/base64.Tpo .deps/base64.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include    -I./spnegohelp -I.  -m64 -Wall -g -O2 -D_REENTRANT -MT derparse.o -MD -MP -MF .deps/derparse.Tpo -c -o derparse.o `test -f 'spnegohelp/derparse.c' || echo './'`spnegohelp/derparse.c
+mv -f .deps/derparse.Tpo .deps/derparse.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include    -I./spnegohelp -I.  -m64 -Wall -g -O2 -D_REENTRANT -MT spnego.o -MD -MP -MF .deps/spnego.Tpo -c -o spnego.o `test -f 'spnegohelp/spnego.c' || echo './'`spnegohelp/spnego.c
+mv -f .deps/spnego.Tpo .deps/spnego.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include    -I./spnegohelp -I.  -m64 -Wall -g -O2 -D_REENTRANT -MT spnegohelp.o -MD -MP -MF .deps/spnegohelp.Tpo -c -o spnegohelp.o `test -f 'spnegohelp/spnegohelp.c' || echo './'`spnegohelp/spnegohelp.c
+mv -f .deps/spnegohelp.Tpo .deps/spnegohelp.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include    -I./spnegohelp -I.  -m64 -Wall -g -O2 -D_REENTRANT -MT spnegoparse.o -MD -MP -MF .deps/spnegoparse.Tpo -c -o spnegoparse.o `test -f 'spnegohelp/spnegoparse.c' || echo './'`spnegohelp/spnegoparse.c
+mv -f .deps/spnegoparse.Tpo .deps/spnegoparse.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squid_kerb_auth squid_kerb_auth.o base64.o derparse.o spnego.o spnegohelp.o spnegoparse.o -lgssapi_krb5 -lkrb5 -lcom_err 
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth/squid_kerb_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+Making all in digest_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+Making all in external_acl
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers'
+make[3]: Nothing to be done for `all-am'.
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers'
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers'
+Making all in tools
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/tools'
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/tools'
+depbase=`echo squidclient.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../include -I. -I. -I../include -I../include -I../lib/libTrie/include    -m64 -Wall -g -O2 -D_REENTRANT -MT squidclient.o -MD -MP -MF $depbase.Tpo -c -o squidclient.o squidclient.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squidclient squidclient.o -L../lib -lmiscutil -lrt -lpthread -lm 
+depbase=`echo cossdump.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`;\
+	gcc -DHAVE_CONFIG_H -I. -I../include -I. -I. -I../include -I../include -I../lib/libTrie/include    -m64 -Wall -g -O2 -D_REENTRANT -MT cossdump.o -MD -MP -MF $depbase.Tpo -c -o cossdump.o cossdump.c &&\
+	mv -f $depbase.Tpo $depbase.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o cossdump cossdump.o -L../lib -lmiscutil -lrt -lpthread -lm 
+gcc -DHAVE_CONFIG_H -I. -I../include -I. -I. -I../include -I../include -I../lib/libTrie/include   -DDEFAULT_CACHEMGR_CONFIG=\"/etc/squid/cachemgr.conf\"  -m64 -Wall -g -O2 -D_REENTRANT -MT cachemgr__CGIEXT_-cachemgr.o -MD -MP -MF .deps/cachemgr__CGIEXT_-cachemgr.Tpo -c -o cachemgr__CGIEXT_-cachemgr.o `test -f 'cachemgr.c' || echo './'`cachemgr.c
+cachemgr.c: In function ‘read_post_request’:
+cachemgr.c:778:10: warning: ignoring return value of ‘fread’, declared with attribute warn_unused_result [-Wunused-result]
+cachemgr.c: In function ‘process_request’:
+cachemgr.c:731:10: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
+mv -f .deps/cachemgr__CGIEXT_-cachemgr.Tpo .deps/cachemgr__CGIEXT_-cachemgr.Po
+gcc -DDEFAULT_CACHEMGR_CONFIG=\"/etc/squid/cachemgr.conf\"  -m64 -Wall -g -O2 -D_REENTRANT   -o cachemgr.cgi cachemgr__CGIEXT_-cachemgr.o -L../lib -lmiscutil -lrt -lpthread -lm 
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/tools'
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/tools'
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9'
+make[2]: Nothing to be done for `all-am'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9'
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9'
+# Authentication modules
+cd helpers/basic_auth/NCSA && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/NCSA'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT ncsa_auth.o -MD -MP -MF .deps/ncsa_auth.Tpo -c -o ncsa_auth.o ncsa_auth.c
+mv -f .deps/ncsa_auth.Tpo .deps/ncsa_auth.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT crypt_md5.o -MD -MP -MF .deps/crypt_md5.Tpo -c -o crypt_md5.o crypt_md5.c
+mv -f .deps/crypt_md5.Tpo .deps/crypt_md5.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o ncsa_auth ncsa_auth.o crypt_md5.o -L../../../lib -lmiscutil -lcrypt  -lrt -lpthread -lm  
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/NCSA'
+cd helpers/basic_auth/SMB && make SAMBAPREFIX=/usr INSTALLBIN=/usr/lib/squid
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/SMB'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include   -DSAMBAPREFIX=\"/usr\" -DHELPERSCRIPT=\"/usr/lib/squid/smb_auth.sh\" -m64 -Wall -g -O2 -D_REENTRANT -MT smb_auth-smb_auth.o -MD -MP -MF .deps/smb_auth-smb_auth.Tpo -c -o smb_auth-smb_auth.o `test -f 'smb_auth.c' || echo './'`smb_auth.c
+mv -f .deps/smb_auth-smb_auth.Tpo .deps/smb_auth-smb_auth.Po
+gcc -DSAMBAPREFIX=\"/usr\" -DHELPERSCRIPT=\"/usr/lib/squid/smb_auth.sh\" -m64 -Wall -g -O2 -D_REENTRANT   -o smb_auth smb_auth-smb_auth.o -L../../../lib -lmiscutil -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/SMB'
+cd helpers/basic_auth/PAM && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/PAM'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT pam_auth.o -MD -MP -MF .deps/pam_auth.Tpo -c -o pam_auth.o pam_auth.c
+mv -f .deps/pam_auth.Tpo .deps/pam_auth.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o pam_auth pam_auth.o -L../../../lib -lmiscutil -lpam -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/PAM'
+cd helpers/basic_auth/LDAP && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/LDAP'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT squid_ldap_auth.o -MD -MP -MF .deps/squid_ldap_auth.Tpo -c -o squid_ldap_auth.o squid_ldap_auth.c
+mv -f .deps/squid_ldap_auth.Tpo .deps/squid_ldap_auth.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squid_ldap_auth squid_ldap_auth.o -L../../../lib -lmiscutil -lldap -llber -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/LDAP'
+cd helpers/basic_auth/YP && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/YP'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT yp_auth.o -MD -MP -MF .deps/yp_auth.Tpo -c -o yp_auth.o yp_auth.c
+mv -f .deps/yp_auth.Tpo .deps/yp_auth.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT nis_support.o -MD -MP -MF .deps/nis_support.Tpo -c -o nis_support.o nis_support.c
+mv -f .deps/nis_support.Tpo .deps/nis_support.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o yp_auth yp_auth.o nis_support.o -L../../../lib -lmiscutil -lcrypt  -lnsl  -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/YP'
+cd helpers/basic_auth/MSNT && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/MSNT'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT md4.o -MD -MP -MF .deps/md4.Tpo -c -o md4.o md4.c
+mv -f .deps/md4.Tpo .deps/md4.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT rfcnb-io.o -MD -MP -MF .deps/rfcnb-io.Tpo -c -o rfcnb-io.o rfcnb-io.c
+mv -f .deps/rfcnb-io.Tpo .deps/rfcnb-io.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT rfcnb-util.o -MD -MP -MF .deps/rfcnb-util.Tpo -c -o rfcnb-util.o rfcnb-util.c
+mv -f .deps/rfcnb-util.Tpo .deps/rfcnb-util.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT session.o -MD -MP -MF .deps/session.Tpo -c -o session.o session.c
+mv -f .deps/session.Tpo .deps/session.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT msntauth.o -MD -MP -MF .deps/msntauth.Tpo -c -o msntauth.o msntauth.c
+msntauth.c: In function ‘main’:
+msntauth.c:75:11: warning: ignoring return value of ‘fgets’, declared with attribute warn_unused_result [-Wunused-result]
+mv -f .deps/msntauth.Tpo .deps/msntauth.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT smbdes.o -MD -MP -MF .deps/smbdes.Tpo -c -o smbdes.o smbdes.c
+mv -f .deps/smbdes.Tpo .deps/smbdes.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT smbencrypt.o -MD -MP -MF .deps/smbencrypt.Tpo -c -o smbencrypt.o smbencrypt.c
+mv -f .deps/smbencrypt.Tpo .deps/smbencrypt.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT smblib-util.o -MD -MP -MF .deps/smblib-util.Tpo -c -o smblib-util.o smblib-util.c
+mv -f .deps/smblib-util.Tpo .deps/smblib-util.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT smblib.o -MD -MP -MF .deps/smblib.Tpo -c -o smblib.o smblib.c
+mv -f .deps/smblib.Tpo .deps/smblib.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT valid.o -MD -MP -MF .deps/valid.Tpo -c -o valid.o valid.c
+mv -f .deps/valid.Tpo .deps/valid.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT denyusers.o -MD -MP -MF .deps/denyusers.Tpo -c -o denyusers.o denyusers.c
+mv -f .deps/denyusers.Tpo .deps/denyusers.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT allowusers.o -MD -MP -MF .deps/allowusers.Tpo -c -o allowusers.o allowusers.c
+mv -f .deps/allowusers.Tpo .deps/allowusers.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -DSYSCONFDIR=\"/etc/squid\" -c ./confload.c -o confload.o
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT usersfile.o -MD -MP -MF .deps/usersfile.Tpo -c -o usersfile.o usersfile.c
+mv -f .deps/usersfile.Tpo .deps/usersfile.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o msnt_auth md4.o rfcnb-io.o rfcnb-util.o session.o msntauth.o smbdes.o smbencrypt.o smblib-util.o smblib.o valid.o denyusers.o allowusers.o confload.o usersfile.o -L../../../lib -lmiscutil -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/MSNT'
+cd helpers/basic_auth/getpwnam && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/getpwnam'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT getpwnam_auth.o -MD -MP -MF .deps/getpwnam_auth.Tpo -c -o getpwnam_auth.o getpwnam_auth.c
+mv -f .deps/getpwnam_auth.Tpo .deps/getpwnam_auth.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o getpwname_auth getpwnam_auth.o -L../../../lib -lmiscutil -lcrypt  -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/getpwnam'
+cd helpers/digest_auth/password && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/password'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include -I../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT digest_pw_auth.o -MD -MP -MF .deps/digest_pw_auth.Tpo -c -o digest_pw_auth.o digest_pw_auth.c
+mv -f .deps/digest_pw_auth.Tpo .deps/digest_pw_auth.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include -I../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT text_backend.o -MD -MP -MF .deps/text_backend.Tpo -c -o text_backend.o text_backend.c
+mv -f .deps/text_backend.Tpo .deps/text_backend.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o digest_pw_auth digest_pw_auth.o text_backend.o -L../../../lib -lmiscutil -lcrypt  -lrt -lpthread -lm  
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/password'
+cd helpers/digest_auth/ldap && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/ldap'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include -I../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT digest_pw_auth.o -MD -MP -MF .deps/digest_pw_auth.Tpo -c -o digest_pw_auth.o digest_pw_auth.c
+mv -f .deps/digest_pw_auth.Tpo .deps/digest_pw_auth.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include -I../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT ldap_backend.o -MD -MP -MF .deps/ldap_backend.Tpo -c -o ldap_backend.o ldap_backend.c
+mv -f .deps/ldap_backend.Tpo .deps/ldap_backend.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o digest_ldap_auth digest_pw_auth.o ldap_backend.o -L../../../lib -lmiscutil -lldap -llber -lcrypt  -lrt -lpthread -lm  
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/ldap'
+cd helpers/external_acl/ip_user && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ip_user'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT dict.o -MD -MP -MF .deps/dict.Tpo -c -o dict.o dict.c
+mv -f .deps/dict.Tpo .deps/dict.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT main.o -MD -MP -MF .deps/main.Tpo -c -o main.o main.c
+mv -f .deps/main.Tpo .deps/main.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT match.o -MD -MP -MF .deps/match.Tpo -c -o match.o match.c
+mv -f .deps/match.Tpo .deps/match.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o ip_user_check dict.o main.o match.o -L../../../lib -lmiscutil -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ip_user'
+cd helpers/external_acl/ldap_group && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ldap_group'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT squid_ldap_group.o -MD -MP -MF .deps/squid_ldap_group.Tpo -c -o squid_ldap_group.o squid_ldap_group.c
+squid_ldap_group.c: In function ‘main’:
+squid_ldap_group.c:221:9: warning: variable ‘err’ set but not used [-Wunused-but-set-variable]
+mv -f .deps/squid_ldap_group.Tpo .deps/squid_ldap_group.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squid_ldap_group squid_ldap_group.o -L../../../lib -lmiscutil -lldap -llber -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ldap_group'
+cd helpers/external_acl/session && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/session'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT squid_session.o -MD -MP -MF .deps/squid_session.Tpo -c -o squid_session.o squid_session.c
+mv -f .deps/squid_session.Tpo .deps/squid_session.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squid_session squid_session.o -ldb  
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/session'
+cd helpers/external_acl/unix_group && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/unix_group'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include    -m64 -Wall -g -O2 -D_REENTRANT -MT check_group.o -MD -MP -MF .deps/check_group.Tpo -c -o check_group.o check_group.c
+mv -f .deps/check_group.Tpo .deps/check_group.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o squid_unix_group check_group.o -L../../../lib -lmiscutil -lrt -lpthread -lm 
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/unix_group'
+cd helpers/external_acl/wbinfo_group && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/wbinfo_group'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/wbinfo_group'
+cd helpers/ntlm_auth/SMB && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+Making all in smbval
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB/smbval'
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT valid.o -MD -MP -MF .deps/valid.Tpo -c -o valid.o valid.c
+mv -f .deps/valid.Tpo .deps/valid.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT session.o -MD -MP -MF .deps/session.Tpo -c -o session.o session.c
+mv -f .deps/session.Tpo .deps/session.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT rfcnb-util.o -MD -MP -MF .deps/rfcnb-util.Tpo -c -o rfcnb-util.o rfcnb-util.c
+mv -f .deps/rfcnb-util.Tpo .deps/rfcnb-util.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT rfcnb-io.o -MD -MP -MF .deps/rfcnb-io.Tpo -c -o rfcnb-io.o rfcnb-io.c
+mv -f .deps/rfcnb-io.Tpo .deps/rfcnb-io.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT smblib-util.o -MD -MP -MF .deps/smblib-util.Tpo -c -o smblib-util.o smblib-util.c
+mv -f .deps/smblib-util.Tpo .deps/smblib-util.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT smblib.o -MD -MP -MF .deps/smblib.Tpo -c -o smblib.o smblib.c
+mv -f .deps/smblib.Tpo .deps/smblib.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT smbencrypt.o -MD -MP -MF .deps/smbencrypt.Tpo -c -o smbencrypt.o smbencrypt.c
+mv -f .deps/smbencrypt.Tpo .deps/smbencrypt.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT smbdes.o -MD -MP -MF .deps/smbdes.Tpo -c -o smbdes.o smbdes.c
+mv -f .deps/smbdes.Tpo .deps/smbdes.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../../include -I. -I../../../../include -I../../../../include -I../../../../src/    -m64 -Wall -g -O2 -D_REENTRANT -MT md4.o -MD -MP -MF .deps/md4.Tpo -c -o md4.o md4.c
+mv -f .deps/md4.Tpo .deps/md4.Po
+rm -f libsmbvalid.a
+/usr/bin/ar cru libsmbvalid.a valid.o session.o rfcnb-util.o rfcnb-io.o smblib-util.o smblib.o smbencrypt.o smbdes.o md4.o 
+ranlib libsmbvalid.a
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB/smbval'
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include -I../../../src/ -I./smbval    -m64 -Wall -g -O2 -D_REENTRANT -MT libntlmssp.o -MD -MP -MF .deps/libntlmssp.Tpo -c -o libntlmssp.o libntlmssp.c
+mv -f .deps/libntlmssp.Tpo .deps/libntlmssp.Po
+gcc -DHAVE_CONFIG_H -I. -I../../../include -I. -I../../../include -I../../../include -I../../../src/ -I./smbval    -m64 -Wall -g -O2 -D_REENTRANT -MT ntlm_auth.o -MD -MP -MF .deps/ntlm_auth.Tpo -c -o ntlm_auth.o ntlm_auth.c
+ntlm_auth.c: In function ‘main’:
+ntlm_auth.c:454:10: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
+mv -f .deps/ntlm_auth.Tpo .deps/ntlm_auth.Po
+gcc  -m64 -Wall -g -O2 -D_REENTRANT   -o ntlm_auth libntlmssp.o ntlm_auth.o smbval/libsmbvalid.a -L../../../lib -lntlmauth -lmiscutil -lcrypt  -lrt -lpthread -lm 
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+touch build
+ fakeroot debian/rules binary
+test -f src/squid.h
+/usr/bin/make logdir=/var/log/squid DEFAULT_CACHE_LOG=/var/log/squid/cache.log DEFAULT_ACCESS_LOG=/var/log/squid/access.log DEFAULT_STORE_LOG=/var/log/squid/store.log DEFAULT_PID_FILE=/var/run/squid.pid DEFAULT_SWAP_DIR=/var/spool/squid DEFAULT_ICON_DIR=/usr/share/squid/icons DEFAULT_ERROR_DIR=/usr/share/squid/errors/en DEFAULT_MIME_TABLE=/usr/share/squid/mime.conf DEFAULT_MIB_PATH=/usr/share/snmp/mibs/SQUID.txt all
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9'
+Making all in lib
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/lib'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/lib'
+Making all in snmplib
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/snmplib'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/snmplib'
+Making all in scripts
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/scripts'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/scripts'
+Making all in src
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/src'
+/usr/bin/make  all-recursive
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/src'
+Making all in fs
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src/fs'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src/fs'
+Making all in repl
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src/repl'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src/repl'
+Making all in auth
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src/auth'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src/auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/src'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/src'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/src'
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/src'
+Making all in icons
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/icons'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/icons'
+Making all in errors
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/errors'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/errors'
+Making all in doc
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/doc'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/doc'
+Making all in helpers
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers'
+Making all in basic_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth'
+Making all in ntlm_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth'
+Making all in negotiate_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+Making all in squid_kerb_auth
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth/squid_kerb_auth'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth/squid_kerb_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/negotiate_auth'
+Making all in digest_auth
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth'
+Making all in external_acl
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[4]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl'
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers'
+make[3]: Nothing to be done for `all-am'.
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers'
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers'
+Making all in tools
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/tools'
+make[3]: Entering directory `/root/squid/squid-2.7.STABLE9/tools'
+make[3]: Nothing to be done for `all-am'.
+make[3]: Leaving directory `/root/squid/squid-2.7.STABLE9/tools'
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/tools'
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9'
+make[2]: Nothing to be done for `all-am'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9'
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9'
+# Authentication modules
+cd helpers/basic_auth/NCSA && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/NCSA'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/NCSA'
+cd helpers/basic_auth/SMB && make SAMBAPREFIX=/usr INSTALLBIN=/usr/lib/squid
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/SMB'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/SMB'
+cd helpers/basic_auth/PAM && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/PAM'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/PAM'
+cd helpers/basic_auth/LDAP && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/LDAP'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/LDAP'
+cd helpers/basic_auth/YP && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/YP'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/YP'
+cd helpers/basic_auth/MSNT && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/MSNT'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/MSNT'
+cd helpers/basic_auth/getpwnam && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/getpwnam'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/basic_auth/getpwnam'
+cd helpers/digest_auth/password && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/password'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/password'
+cd helpers/digest_auth/ldap && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/ldap'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/digest_auth/ldap'
+cd helpers/external_acl/ip_user && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ip_user'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ip_user'
+cd helpers/external_acl/ldap_group && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ldap_group'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/ldap_group'
+cd helpers/external_acl/session && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/session'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/session'
+cd helpers/external_acl/unix_group && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/unix_group'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/unix_group'
+cd helpers/external_acl/wbinfo_group && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/wbinfo_group'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/external_acl/wbinfo_group'
+cd helpers/ntlm_auth/SMB && make
+make[1]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+Making all in smbval
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB/smbval'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB/smbval'
+make[2]: Entering directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+make[2]: Nothing to be done for `all-am'.
+make[2]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+make[1]: Leaving directory `/root/squid/squid-2.7.STABLE9/helpers/ntlm_auth/SMB'
+touch build
+test -f src/squid.h
+test root = "`whoami`"
+rm -rf debian/tmp debian/files
+test -f src/squid.h
+#
+#	Build squid-common package.
+#
+install -p -d -o root -g root  -m  755 debian/tmp/DEBIAN
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/doc/squid-common
+install -p    -o root -g root  -m  644 ChangeLog debian/tmp/usr/share/doc/squid-common/changelog
+install -p    -o root -g root  -m  644 debian/changelog \
+		debian/tmp/usr/share/doc/squid-common/changelog.Debian
+gzip -9f debian/tmp/usr/share/doc/squid-common/*
+install -p    -o root -g root  -m  644 debian/copyright debian/tmp/usr/share/doc/squid-common
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/squid
+#install -p -d -o root -g root  -m  755 debian/tmp/usr/share/squid/errors
+ln -sf ../squid-langpack debian/tmp/usr/share/squid/errors
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/squid/icons
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/snmp/mibs
+install -p    -o root -g root  -m  644 src/mib.txt ./debian/tmp/usr/share/snmp/mibs/SQUID.txt
+install -p    -o root -g root  -m  644 src/mime.conf.default ./debian/tmp/usr/share/squid/mime.conf
+#
+#cp -R errors/* ./debian/tmp/usr/share/squid/errors
+#rm -f ./debian/tmp/usr/share/squid/errors/Makefile*
+#rm -f ./debian/tmp/usr/share/squid/errors/list
+#chmod 755 ./debian/tmp/usr/share/squid/errors/*
+#chmod 644 ./debian/tmp/usr/share/squid/errors/*/*
+#chown -R root:root ./debian/tmp/usr/share/squid/errors
+install -p    -o root -g root  -m  644 icons/*.gif ./debian/tmp/usr/share/squid/icons
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/doc/squid
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/doc/squid/examples
+install -p    -o root -g root  -m  644 debian/doc/README.auth_modules debian/tmp/usr/share/doc/squid
+install -p    -o root -g root  -m  644 helpers/basic_auth/SMB/README \
+		debian/tmp/usr/share/doc/squid/README.auth_module.smb_auth
+umask 022; head -19 helpers/basic_auth/NCSA/ncsa_auth.c > \
+		debian/tmp/usr/share/doc/squid/README.auth_module.ncsa_auth
+umask 022; head -56 helpers/basic_auth/PAM/pam_auth.c > \
+		debian/tmp/usr/share/doc/squid/README.auth_module.pam_auth
+install -p    -o root -g root  -m  644 debian/README.ldap_auth \
+		debian/tmp/usr/share/doc/squid/README.auth_module.ldap_auth
+install -p    -o root -g root  -m  644 helpers/basic_auth/MSNT/README.html \
+		debian/tmp/usr/share/doc/squid/README.auth_module.msnt_auth.html
+umask 022; head -21 helpers/basic_auth/getpwnam/getpwnam_auth.c > \
+		debian/tmp/usr/share/doc/squid/README.auth_module.getpwnam_auth
+umask 022; head -26 helpers/digest_auth/password/digest_pw_auth.c > \
+		debian/tmp/usr/share/doc/squid/README.auth_module.digest_pw_auth
+install -p    -o root -g root  -m  644 helpers/external_acl/ip_user/README \
+		debian/tmp/usr/share/doc/squid/README.auth_module.ip_user
+install -p    -o root -g root  -m  644 helpers/external_acl/ip_user/example.conf \
+		debian/tmp/usr/share/doc/squid/examples/ip_user-example.conf
+install -p    -o root -g root  -m  644 helpers/external_acl/unix_group/README \
+		debian/tmp/usr/share/doc/squid/README.auth_module.unix_group
+install -p    -o root -g root  -m  644 helpers/negotiate_auth/squid_kerb_auth/readme.txt \
+		debian/tmp/usr/share/doc/squid/README.squid_kerb_auth
+install -p    -o root -g root  -m  644 CONTRIBUTORS QUICKSTART RELEASENOTES.html \
+		README debian/doc/README.transparent-proxy \
+		debian/doc/README.morefds doc/debug-sections.txt \
+		debian/tmp/usr/share/doc/squid
+install -p    -o root -g root  -m  644 debian/doc/CompleteFaq debian/tmp/usr/share/doc/squid
+gzip -9f `find debian/tmp/usr/share/doc/squid/* | grep -v examples`
+install -p    -o root -g root  -m  755 debian/postinst.squid-common debian/tmp/DEBIAN/postinst
+dpkg-gencontrol -isp -psquid-common
+dpkg --build debian/tmp ..
+dpkg-deb: building package `squid-common' in `../squid-common_2.7.STABLE9-4.1+deb7u1_all.deb'.
+rm -f debian/substvars
+rm -rf debian/tmp
+#
+#	Build squid package.
+#
+install -p -d -o root -g root  -m  755 debian/tmp/DEBIAN
+install -p -d -o root -g root  -m  755 debian/tmp/etc/squid
+install -p -d -o root -g root  -m  755 debian/tmp/etc/logrotate.d
+install -p -d -o root -g root  -m  755 debian/tmp/etc/init.d
+install -p -d -o root -g root  -m  755 debian/tmp/etc/resolvconf/update-libc.d
+install -p -d -o root -g root  -m  755 debian/tmp/usr/sbin
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/doc/squid
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/doc/squid/examples
+install -p -d -o root -g root  -m  755 debian/tmp/usr/lib/squid
+install -p -d -o root -g root  -m  755 debian/tmp/var/{log,spool}
+install -m 750 -o proxy -g proxy -d debian/tmp/var/log/squid
+install -m 750 -o proxy -g proxy -d debian/tmp/var/spool/squid
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/man/man8
+#
+install -p    -o root -g root  -m  755 -s src/squid debian/tmp/usr/sbin
+install -p    -o root -g root  -m  755 -s src/unlinkd src/fs/diskd-daemon src/logfile-daemon debian/tmp/usr/lib/squid
+install -p    -o root -g root  -m  644 debian/logrotate debian/tmp/etc/logrotate.d/squid
+install -p    -o root -g root  -m  755 debian/squid.resolvconf debian/tmp/etc/resolvconf/update-libc.d/squid
+install -p    -o root -g root  -m  755 -s helpers/basic_auth/SMB/smb_auth debian/tmp/usr/lib/squid
+install -p    -o root -g root  -m  755 helpers/basic_auth/SMB/smb_auth.sh debian/tmp/usr/lib/squid
+install -p    -o root -g root  -m  755 -s helpers/basic_auth/NCSA/ncsa_auth debian/tmp/usr/lib/squid
+install -p    -o root -g root  -m  755 -s -m 2754 -o proxy -g shadow \
+		helpers/basic_auth/PAM/pam_auth debian/tmp/usr/lib/squid
+install -p    -o root -g root  -m  755 -s helpers/basic_auth/LDAP/squid_ldap_auth \
+		debian/tmp/usr/lib/squid/ldap_auth
+install -p    -o root -g root  -m  755 -s helpers/basic_auth/YP/yp_auth \
+		debian/tmp/usr/lib/squid/yp_auth
+install -p    -o root -g root  -m  755 -s helpers/basic_auth/MSNT/msnt_auth \
+		debian/tmp/usr/lib/squid/msnt_auth
+install -p    -o root -g root  -m  755 -s -m 2754 -o proxy -g shadow \
+		helpers/basic_auth/getpwnam/getpwname_auth \
+		debian/tmp/usr/lib/squid/getpwnam_auth
+install -p    -o root -g root  -m  755 -s helpers/digest_auth/password/digest_pw_auth \
+		debian/tmp/usr/lib/squid/digest_pw_auth
+install -p    -o root -g root  -m  755 -s helpers/external_acl/ip_user/ip_user_check \
+		debian/tmp/usr/lib/squid/ip_user_check
+install -p    -o root -g root  -m  755 -s helpers/external_acl/ldap_group/squid_ldap_group \
+		debian/tmp/usr/lib/squid/squid_ldap_group
+install -p    -o root -g root  -m  644 helpers/external_acl/ldap_group/squid_ldap_group.8 \
+		debian/tmp/usr/share/man/man8/squid_ldap_group.8
+install -p    -o root -g root  -m  755 -s helpers/external_acl/session/squid_session \
+		debian/tmp/usr/lib/squid/squid_session
+install -p    -o root -g root  -m  644 helpers/external_acl/session/squid_session.8 \
+		debian/tmp/usr/share/man/man8/squid_session.8
+install -p    -o root -g root  -m  755 -s helpers/external_acl/unix_group/squid_unix_group \
+		debian/tmp/usr/lib/squid/squid_unix_group
+install -p    -o root -g root  -m  644 helpers/external_acl/unix_group/squid_unix_group.8 \
+		debian/tmp/usr/share/man/man8/squid_unix_group.8
+install -p    -o root -g root  -m  755 helpers/external_acl/wbinfo_group/wbinfo_group.pl \
+		debian/tmp/usr/lib/squid/wbinfo_group.pl
+install -p    -o root -g root  -m  755 -s helpers/ntlm_auth/SMB/ntlm_auth \
+		debian/tmp/usr/lib/squid/ntlm_auth
+install -p    -o root -g root  -m  755 -s helpers/negotiate_auth/squid_kerb_auth/squid_kerb_auth \
+		debian/tmp/usr/lib/squid/squid_kerb_auth
+# the examples. Most have been removed from upstream :/
+install -p    -o root -g root  -m  644 src/squid.conf.default \
+	        debian/tmp/usr/share/doc/squid/examples/squid.conf
+install -p    -o root -g root  -m  644 debian/default.squid \
+		debian/tmp/usr/share/doc/squid/examples
+#
+install -p    -o root -g root  -m  644 ChangeLog debian/tmp/usr/share/doc/squid/changelog
+install -p    -o root -g root  -m  644 debian/changelog \
+		debian/tmp/usr/share/doc/squid/changelog.Debian
+install -p    -o root -g root  -m  644 debian/README.Debian \
+		debian/tmp/usr/share/doc/squid/README.Debian
+install -p    -o root -g root  -m  644 debian/NEWS.Debian \
+		debian/tmp/usr/share/doc/squid/NEWS.Debian
+gzip -9f `find debian/tmp/usr/share/doc/squid/* | grep -v examples`
+install -p    -o root -g root  -m  644 debian/copyright debian/tmp/usr/share/doc/squid
+install -p    -o root -g root  -m  644 doc/squid.8 debian/tmp/usr/share/man/man8
+gzip -9f debian/tmp/usr/share/man/man?/*
+install -p    -o root -g root  -m  755 debian/squid.rc debian/tmp/etc/init.d/squid
+#
+install -p    -o root -g root  -m  755 debian/preinst debian/tmp/DEBIAN/preinst
+install -p    -o root -g root  -m  755 debian/postinst debian/tmp/DEBIAN/postinst
+install -p    -o root -g root  -m  755 debian/prerm debian/tmp/DEBIAN/prerm
+install -p    -o root -g root  -m  755 debian/postrm debian/tmp/DEBIAN/postrm
+install -p    -o root -g root  -m  644 debian/conffiles debian/tmp/DEBIAN/conffiles
+#install -p    -o root -g root  -m  644 debian/templates debian/tmp/DEBIAN/templates
+po2debconf debian/templates > debian/templates.merged
+install -p    -o root -g root  -m  644 debian/templates.merged debian/tmp/DEBIAN/templates
+install -p    -o root -g root  -m  755 debian/config debian/tmp/DEBIAN/config
+# overrides file
+install -p -d -o root -g root  -m  755 debian/tmp/usr/share/lintian/overrides/
+install -p    -o root -g root  -m  644 debian/squid.overrides \
+		debian/tmp/usr/share/lintian/overrides/squid
+dpkg-shlibdeps debian/tmp/usr/sbin/* debian/tmp/usr/lib/squid/*
+objdump: debian/tmp/usr/lib/squid/wbinfo_group.pl: File format not recognized
+objdump: debian/tmp/usr/lib/squid/smb_auth.sh: File format not recognized
+dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/tmp/usr/lib/squid/squid_kerb_auth was not linked against libcom_err.so.2 (it uses none of the library's symbols)
+dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/tmp/usr/lib/squid/squid_kerb_auth was not linked against libkrb5.so.3 (it uses none of the library's symbols)
+dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/tmp/usr/lib/squid/diskd-daemon debian/tmp/usr/sbin/squid debian/tmp/usr/lib/squid/ntlm_auth debian/tmp/usr/lib/squid/msnt_auth debian/tmp/usr/lib/squid/ncsa_auth debian/tmp/usr/lib/squid/pam_auth debian/tmp/usr/lib/squid/digest_pw_auth debian/tmp/usr/lib/squid/logfile-daemon debian/tmp/usr/lib/squid/yp_auth debian/tmp/usr/lib/squid/getpwnam_auth debian/tmp/usr/lib/squid/ip_user_check debian/tmp/usr/lib/squid/squid_unix_group debian/tmp/usr/lib/squid/ldap_auth debian/tmp/usr/lib/squid/squid_ldap_group debian/tmp/usr/lib/squid/smb_auth were not linked against librt.so.1 (they use none of the library's symbols)
+dpkg-gencontrol -isp -psquid
+dpkg --build debian/tmp ..
+dpkg-deb: building package `squid' in `../squid_2.7.STABLE9-4.1+deb7u1_amd64.deb'.
+rm -f debian/substvars
+rm -rf debian/tmp
+ dpkg-genchanges  >../squid_2.7.STABLE9-4.1+deb7u1_amd64.changes
+dpkg-genchanges: not including original source code in upload
+ dpkg-source --after-build squid-2.7.STABLE9
+dpkg-buildpackage: binary and diff upload (original source NOT included)
+Now running lintian...
+warning: the authors of lintian do not recommend running it with root privileges!
+E: squid source: build-depends-on-obsolete-package build-depends: dpatch (>= 2.0.9)
+W: squid source: patch-system-but-direct-changes-in-diff src/defines.h
+W: squid source: debian-rules-missing-recommended-target build-arch
+W: squid source: debian-rules-missing-recommended-target build-indep
+W: squid source: package-would-benefit-from-build-arch-targets
+W: squid source: out-of-date-standards-version 3.9.1 (current is 3.9.4)
+W: squid: shared-lib-without-dependency-information usr/lib/squid/getpwnam_auth
+W: squid: shared-lib-without-dependency-information usr/lib/squid/pam_auth
+W: squid: hardening-no-fortify-functions usr/lib/squid/unlinkd
+N: 6 tags overridden (6 warnings)
+Finished running lintian.

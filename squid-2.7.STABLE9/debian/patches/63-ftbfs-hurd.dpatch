@@ -1,0 +1,81 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 63-ftbfs-hurd.dpatch by Luigi Gangitano <luigi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fixes FTBFS on Hurd-i386
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/helpers/basic_auth/MSNT/allowusers.c squid/helpers/basic_auth/MSNT/allowusers.c
+--- squid~/helpers/basic_auth/MSNT/allowusers.c	2009-08-05 01:53:53.000000000 +0200
++++ squid/helpers/basic_auth/MSNT/allowusers.c	2011-03-29 18:26:56.000000000 +0200
+@@ -16,6 +16,7 @@
+ #include <string.h>
+ #include "usersfile.h"
+ #include "msntauth.h"
++#include "util.h"
+ 
+ static usersfile AllowUsers;
+ static int init = 0;
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/helpers/basic_auth/MSNT/confload.c squid/helpers/basic_auth/MSNT/confload.c
+--- squid~/helpers/basic_auth/MSNT/confload.c	2009-08-05 01:53:55.000000000 +0200
++++ squid/helpers/basic_auth/MSNT/confload.c	2011-03-29 18:26:56.000000000 +0200
+@@ -21,6 +21,7 @@
+ 
+ #include "msntauth.h"
+ #include "valid.h"
++#include "util.h"
+ 
+ /* Path to configuration file */
+ #ifndef SYSCONFDIR
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/helpers/basic_auth/MSNT/denyusers.c squid/helpers/basic_auth/MSNT/denyusers.c
+--- squid~/helpers/basic_auth/MSNT/denyusers.c	2009-08-05 01:53:54.000000000 +0200
++++ squid/helpers/basic_auth/MSNT/denyusers.c	2011-03-29 18:26:56.000000000 +0200
+@@ -17,6 +17,7 @@
+ #include <string.h>
+ #include "usersfile.h"
+ #include "msntauth.h"
++#include "util.h"
+ 
+ static usersfile DenyUsers;
+ static int init = 0;
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/include/util.h squid/include/util.h
+--- squid~/include/util.h	2009-08-05 01:51:27.000000000 +0200
++++ squid/include/util.h	2011-03-29 18:26:56.000000000 +0200
+@@ -48,6 +48,11 @@
+ #define SQUIDHOSTNAMELEN 256
+ #endif
+ 
++#define SQUID_MAXPATHLEN 256
++#ifndef MAXPATHLEN
++#define MAXPATHLEN SQUID_MAXPATHLEN
++#endif
++
+ #if defined(_SQUID_FREEBSD_)
+ #define _etext etext
+ #endif
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/src/squid.h squid/src/squid.h
+--- squid~/src/squid.h	2010-03-15 18:35:22.000000000 +0100
++++ squid/src/squid.h	2011-03-29 18:26:56.000000000 +0200
+@@ -278,11 +278,6 @@
+ 
+ #define SQUIDHOSTNAMELEN 256
+ 
+-#define SQUID_MAXPATHLEN 256
+-#ifndef MAXPATHLEN
+-#define MAXPATHLEN SQUID_MAXPATHLEN
+-#endif
+-
+ #if !HAVE_GETRUSAGE
+ #if defined(_SQUID_HPUX_)
+ #define HAVE_GETRUSAGE 1
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' squid~/src/structs.h squid/src/structs.h
+--- squid~/src/structs.h	2009-08-05 01:52:56.000000000 +0200
++++ squid/src/structs.h	2011-03-29 18:26:56.000000000 +0200
+@@ -36,6 +36,7 @@
+ 
+ #include "config.h"
+ #include "splay.h"
++#include "util.h"
+ 
+ #define PEER_MULTICAST_SIBLINGS 1
+ 

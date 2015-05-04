@@ -1,0 +1,32 @@
+Patches applied in the Debian version of :
+
+debian/patches/01-cf.data.debian.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Default configuration file for Debian.
+
+debian/patches/02-dfl-error-dir.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Default error dir is under /usr/share/squid for Debian
+
+debian/patches/03-no-append-domain-localhost.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Don't apply "append_domain" setting to "localhost" in unqualified URLs
+
+debian/patches/04-smb-auth.dpatch (Luigi Gangitano <luigi@debian.org>):
+  No description.
+
+debian/patches/06-unlinkd.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Only run unlinkd for diskd and ufs storage methods
+
+debian/patches/07-manpage.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Fixed wrong reference to /etc/squid/squid.conf
+
+debian/patches/62-missing-expansion.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Fixes %W expansion
+
+debian/patches/63-ftbfs-hurd.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Fixes FTBFS on Hurd-i386
+
+debian/patches/64-ftbfs-string-literals.dpatch (Luigi Gangitano <luigi@debian.org>):
+  Fixes FTBFS on 'Format not a string literal'
+
+debian/patches/70-CVE-2014-3609.dpatch (Sebastien Delafond <seb@debian.org>):
+  Default error dir is under /usr/share/squid for Debian
+
